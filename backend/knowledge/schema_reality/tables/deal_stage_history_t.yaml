@@ -1,0 +1,24 @@
+table_name: deal_stage_history_t
+columns:
+  - name: id
+    type: int
+  - name: deal_id
+    type: int
+  - name: stage_id
+    type: int
+  - name: stage_name
+    type: varchar
+  - name: updated_on
+    type: int
+  - name: updated_by
+    type: int
+  - name: created_on
+    type: int
+  - name: created_by
+    type: int
+  - name: account_id
+    type: int
+  - name: owner_id
+    type: int
+  - name: reason
+    type: text

@@ -1,0 +1,44 @@
+recruiter_submission_rate:
+  business_meaning: "Frequency of candidates submitted to jobs by a recruiter."
+  required_events: ["candidate_submitted_to_job"]
+  owner_resolution_logic:
+    primary: "tblassignjobcandidatelog.createdby"
+    secondary: "tblassignjobcandidatelog.ownerid"
+    rule: "Use createdby to track the individual who performed the submission action."
+  required_partitions: ["accountid"]
+  numerator: "COUNT(DISTINCT assignment_id)"
+  # Executable: a unique (candidate, job) pair represents one assignment.
+  numerator_sql: "COUNT(DISTINCT CONCAT(log.candidateid, '-', log.jobid))"
+  temporal_scope_logic: "createdon"
+  mandatory_tenant_filters: ["accountid"]
+
+recruiter_placement_rate:
+  business_meaning: "Frequency of successful hires attributed to a recruiter."
+  required_events: ["candidate_stage_changed"]
+  owner_resolution_logic: "actor_id of the 'Placed' transition event."
+  numerator: "COUNT(DISTINCT candidateid) WHERE reached_stage = 'Placed'"
+  # Executable: candidatestatusid=9 is the 'Placed' terminal stage.
+  numerator_sql: "COUNT(DISTINCT CASE WHEN log.candidatestatusid = 9 THEN log.candidateid END)"
+  required_partitions: ["accountid"]
+
+recruiter_funnel_efficiency:
+  business_meaning: "Conversion rate of a recruiter's submissions to placements."
+  numerator: "recruiter_placement_rate"
+  denominator: "recruiter_submission_rate"
+  required_partitions: ["accountid", "createdby"]
+
+recruiter_response_velocity:
+  business_meaning: "Average time taken for a recruiter to move a candidate from entry to first review."
+  start_event: "candidate_submitted_to_job"
+  end_event: "candidate_stage_changed (first non-entry stage)"
+  calculation: "AVG(end_event.stagedate - start_event.createdon)"
+  required_partitions: ["accountid", "createdby"]
+
+recruiter_pipeline_load:
+  business_meaning: "Number of active, non-terminal candidates currently owned by a recruiter."
+  numerator: "COUNT(DISTINCT candidateid) WHERE is_active = true"
+  # Executable: active = candidate has at least one log entry in a non-terminal
+  # stage (terminal stages are Rejected=7, Withdrawn=8, Placed=9).
+  numerator_sql: "COUNT(DISTINCT CASE WHEN log.candidatestatusid NOT IN (7, 8, 9) THEN log.candidateid END)"
+  owner_resolution: "ownerid"
+  required_partitions: ["accountid"]

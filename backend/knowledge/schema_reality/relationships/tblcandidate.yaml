@@ -1,0 +1,17 @@
+table: tblcandidate
+foreign_keys:
+- column: accountid
+  references_table: tblaccount
+  references_column: id
+- column: currencyid
+  references_table: tblcurrency
+  references_column: id
+- column: genderid
+  references_table: tblgender
+  references_column: id
+- column: qualificationid
+  references_table: tblqualifications
+  references_column: id
+- column: ownerid
+  references_table: tbluser
+  references_column: id

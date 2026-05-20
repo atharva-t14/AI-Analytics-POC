@@ -1,0 +1,29 @@
+time_to_hire:
+  business_meaning: "Total duration from candidate creation to placement."
+  start_event: "candidate_created"
+  end_event: "candidate_stage_changed (Placed)"
+  replay_extraction_logic: "FIRST_VALUE(createdon) -> LAST_VALUE(stagedate) WHERE stage = 'Placed'"
+  timestamp_precedence: "stagedate > createdon"
+  timezone_assumptions: "UTC (database timestamps are Unix seconds)"
+  missing_event_handling: "Exclude from metric if placement event is missing."
+  required_partitions: ["accountid", "candidateid"]
+
+time_to_submit:
+  business_meaning: "Time taken to assign a created candidate to their first job."
+  start_event: "candidate_created"
+  end_event: "candidate_submitted_to_job"
+  calculation: "end_event.createdon - start_event.createdon"
+
+stage_dwell_time:
+  business_meaning: "Time spent in a specific pipeline stage."
+  start_event: "candidate_stage_changed (Entry to stage)"
+  end_event: "candidate_stage_changed (Exit from stage)"
+  replay_extraction_logic: "LEAD(stagedate) OVER partition - stagedate"
+  required_partitions: ["accountid", "candidateid", "jobid"]
+
+time_to_fill:
+  business_meaning: "Time from job creation to the date the placement was made."
+  start_event: "job_created"
+  end_event: "candidate_stage_changed (Placed)"
+  calculation: "end_event.stagedate - start_event.createdon"
+  required_partitions: ["accountid", "jobid"]

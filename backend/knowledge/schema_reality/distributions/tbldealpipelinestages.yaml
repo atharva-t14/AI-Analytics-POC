@@ -1,0 +1,105 @@
+table: tbldealpipelinestages
+distributions:
+- column: percentage
+  total_distinct_in_sample: 20
+  top_values:
+  - value: '10'
+    frequency: 17705
+  - value: '50'
+    frequency: 17353
+  - value: '25'
+    frequency: 168
+  - value: '0'
+    frequency: 46
+  - value: '20'
+    frequency: 22
+  - value: '2'
+    frequency: 14
+  - value: '12'
+    frequency: 12
+  - value: '100'
+    frequency: 11
+  - value: '30'
+    frequency: 10
+  - value: '70'
+    frequency: 8
+  - value: '23'
+    frequency: 6
+  - value: '40'
+    frequency: 6
+  - value: '90'
+    frequency: 5
+  - value: '15'
+    frequency: 4
+  - value: '5'
+    frequency: 4
+  - value: '51'
+    frequency: 3
+  - value: '72'
+    frequency: 3
+  - value: '28'
+    frequency: 3
+  - value: '81'
+    frequency: 3
+  - value: '47'
+    frequency: 3
+  - value: '03'
+    frequency: 3
+  - value: '45'
+    frequency: 3
+  - value: '60'
+    frequency: 3
+  - value: '3'
+    frequency: 3
+  - value: '80'
+    frequency: 2
+  - value: '35'
+    frequency: 2
+  - value: '01'
+    frequency: 2
+  - value: '86'
+    frequency: 2
+  - value: '05'
+    frequency: 2
+  - value: '34'
+    frequency: 2
+  - value: '18'
+    frequency: 2
+  - value: '1'
+    frequency: 2
+  - value: '83'
+    frequency: 2
+  - value: '44'
+    frequency: 2
+  - value: '4'
+    frequency: 1
+  - value: '46.66'
+    frequency: 1
+  - value: '7'
+    frequency: 1
+  - value: '32'
+    frequency: 1
+  - value: '13'
+    frequency: 1
+  - value: '52'
+    frequency: 1
+  - value: '32.0'
+    frequency: 1
+  - value: '67'
+    frequency: 1
+  - value: '65'
+    frequency: 1
+  - value: '21'
+    frequency: 1
+  - value: '10.78'
+    frequency: 1
+  - value: '78'
+    frequency: 1
+  - value: '-58'
+    frequency: 1
+  - value: '92'
+    frequency: 1
+  - value: '33.0'
+    frequency: 1
+  - value: '75'
+    frequency: 1

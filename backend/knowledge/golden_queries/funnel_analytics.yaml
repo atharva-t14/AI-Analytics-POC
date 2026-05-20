@@ -1,0 +1,192 @@
+benchmark_category: "funnel_analytics"
+queries:
+  - id: "funnel_001"
+    query: "where are we losing candidates?"
+    intent: "funnel_dropoff"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions:
+      - "stage_name"
+    expected_metrics:
+      - "dropoff_count"
+    expected_filters: []
+    expected_chart: 
+      type: "funnel_chart"
+    expected_sql_characteristics:
+      - "aggregation by stage_name"
+      - "tenant isolation"
+    ambiguity_level: "high"
+
+  - id: "funnel_002"
+    query: "What is our conversion rate from screening to interview?"
+    intent: "funnel_conversion"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions: []
+    expected_metrics:
+      - "conversion_rate"
+    expected_filters:
+      - "stage IN ('Screening', 'Interview')"
+    expected_chart: 
+      type: "metric_card"
+    expected_sql_characteristics:
+      - "ratio calculation"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "funnel_003"
+    query: "show the pipeline funnel for last month"
+    intent: "funnel_overview"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions:
+      - "stage_name"
+    expected_metrics:
+      - "candidate_count"
+    expected_filters:
+      - "stagedate = last_month"
+    expected_chart: 
+      type: "funnel_chart"
+    expected_sql_characteristics:
+      - "date filtering on stagedate"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "funnel_004"
+    query: "how many people made it to the offer stage for the Software Engineer role?"
+    intent: "funnel_stage_count"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+      - "job_created"
+    expected_dimensions: []
+    expected_metrics:
+      - "candidate_count"
+    expected_filters:
+      - "stage = 'Offer'"
+      - "job_title LIKE 'Software Engineer'"
+    expected_chart: 
+      type: "metric_card"
+    expected_sql_characteristics:
+      - "join with tbljob"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+
+  - id: "funnel_005"
+    query: "show pipeline dropoffs for Job X"
+    intent: "funnel_dropoff"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+      - "job_created"
+    expected_dimensions:
+      - "stage_name"
+    expected_metrics:
+      - "dropoff_count"
+    expected_filters:
+      - "job_id = X"
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "aggregation by stage_name"
+      - "filtering by job_id"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+
+  - id: "funnel_006"
+    query: "funnel from submitted to placed"
+    intent: "funnel_overview"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_submitted_to_job"
+      - "candidate_stage_changed"
+      - "placement_completed"
+    expected_dimensions:
+      - "stage_name"
+    expected_metrics:
+      - "candidate_count"
+    expected_filters: []
+    expected_chart: 
+      type: "funnel_chart"
+    expected_sql_characteristics:
+      - "sequence ordering"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+
+  - id: "funnel_007"
+    query: "why are candidates dropping out at the technical round?"
+    intent: "funnel_dropoff_reason"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions:
+      - "rejection_reason"
+    expected_metrics:
+      - "candidate_count"
+    expected_filters:
+      - "stage = 'technical round'"
+    expected_chart: 
+      type: "pie_chart"
+    expected_sql_characteristics:
+      - "aggregation by rejection reason"
+      - "tenant isolation"
+    ambiguity_level: "high"
+    clarification_requirements: "Does the system track explicit rejection reasons?"
+
+  - id: "funnel_008"
+    query: "how many offers got rejected?"
+    intent: "funnel_stage_count"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions: []
+    expected_metrics:
+      - "candidate_count"
+    expected_filters:
+      - "stage = 'Offer'"
+      - "status = 'Rejected'"
+    expected_chart: 
+      type: "metric_card"
+    expected_sql_characteristics:
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "funnel_009"
+    query: "compare funnel conversion between Q1 and Q2"
+    intent: "funnel_conversion_comparison"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions:
+      - "quarter"
+    expected_metrics:
+      - "conversion_rate"
+    expected_filters:
+      - "stagedate IN (Q1, Q2)"
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "group by quarter"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "funnel_010"
+    query: "at which stage do most candidates get stuck?"
+    intent: "funnel_bottleneck"
+    domain: "funnel_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions:
+      - "stage_name"
+    expected_metrics:
+      - "time_in_stage_avg"
+    expected_filters: []
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "date diff aggregation"
+      - "tenant isolation"
+    ambiguity_level: "high"

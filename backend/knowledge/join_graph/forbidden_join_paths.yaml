@@ -1,0 +1,23 @@
+forbidden_paths:
+  - path_name: "missing_tenant_isolation"
+    why_dangerous: "Any join path that fails to explicitly propagate accountid or account_id across every hop."
+    analytical_risk: "Cross-tenant data leakage. The system could aggregate counts or expose PII from another tenant's candidate pool."
+    compiler_restriction_required: "The compiler MUST inject AND table_name.accountid = {{tenant_id}} for every joined table automatically."
+
+  - path_name: "candidate_to_deal_to_job_explosion"
+    path_sequence: "tblcandidate -> tbldeals -> tbljob"
+    why_dangerous: "tblcandidate has many deals, and tbldeals links to jobs. Joining across this without an explicit assignment context causes a Cartesian explosion."
+    analytical_risk: "Massively inflated counts for funnel metrics, incorrectly associating candidates with jobs they never applied to just because they share a deal."
+    compiler_restriction_required: "Always traverse funnel analytics via tblassignjobcandidatelog, NEVER through deals."
+
+  - path_name: "ambiguous_user_ownership"
+    path_sequence: "tblcandidate -> tbluser (without explicit column)"
+    why_dangerous: "tblcandidate has both ownerid and createdby. A generic join to tbluser without specifying the semantic role mixes 'sourcers' (createdby) with 'account managers' (ownerid)."
+    analytical_risk: "Inaccurate recruiter productivity leaderboards. Credit given to the wrong recruiter."
+    compiler_restriction_required: "Compiler must always specify either ownerid or createdby depending on the explicitly classified intent."
+
+  - path_name: "naked_activity_log_joins"
+    path_sequence: "tblactivitylog -> tblcandidate"
+    why_dangerous: "tblactivitylog lacks an explicit accountid column. Joining it directly to entity tables risks exposing global system logs if the relatedto constraint is loose."
+    analytical_risk: "Data leakage and severe performance degradation (full table scans on a massive activity table)."
+    compiler_restriction_required: "Do not use tblactivitylog for analytics joins. Rely entirely on tblassignjobcandidatelog, placement_log_t, and deal_stage_history_t which have strict tenant boundaries."

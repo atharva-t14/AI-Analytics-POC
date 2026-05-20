@@ -1,0 +1,58 @@
+stage_conversion_rate:
+  business_meaning: "Percentage of candidates who reached a target stage relative to a source stage."
+  required_events: ["candidate_stage_changed"]
+  replay_dependency: "candidate_transition_model"
+  required_partitions: ["accountid", "jobid"]
+  numerator: "COUNT(DISTINCT candidateid) WHERE reached_stage_seq >= target_stage_seq"
+  denominator: "COUNT(DISTINCT candidateid) WHERE reached_stage_seq >= source_stage_seq"
+  # Executable per-stage approximation: count distinct candidates seen at each stage
+  # (relies on GROUP BY of the `label` dimension). True conversion ratios require
+  # a window-based grounding (per-candidate max-reached-stage) that the compiler
+  # does not yet emit.
+  numerator_sql: "COUNT(DISTINCT log.candidateid)"
+  temporal_scope_logic: "Filters based on stagedate of the latest transition in the window."
+  aggregation_grain: "jobid"
+  mandatory_tenant_filters: ["accountid"]
+  edge_case_handling: "Treat skipped stages as converted for all intermediate steps."
+
+funnel_dropoff_rate:
+  business_meaning: "Percentage of candidates who exited the funnel at a specific stage."
+  required_events: ["candidate_stage_changed"]
+  replay_dependency: "candidate_transition_model"
+  required_partitions: ["accountid", "jobid"]
+  numerator: "COUNT(DISTINCT candidateid) WHERE final_stage_reached = current_stage AND is_active = false"
+  denominator: "COUNT(DISTINCT candidateid) WHERE reached_stage_seq >= current_stage_seq"
+  # Executable approximation: distinct candidates seen at each stage (same shape
+  # as stage_conversion_rate). Real dropoff needs a per-candidate latest-stage
+  # subquery; see backlog.
+  numerator_sql: "COUNT(DISTINCT log.candidateid)"
+  aggregation_grain: "stage"
+  mandatory_tenant_filters: ["accountid"]
+
+stage_pass_through_rate:
+  business_meaning: "Candidates who moved through a stage without dropping off."
+  formula: "1 - funnel_dropoff_rate"
+
+pipeline_completion_rate:
+  business_meaning: "Percentage of candidates reaching terminal hire stage from start of funnel."
+  numerator: "COUNT(DISTINCT candidateid) WHERE reached_terminal_hire_stage = true"
+  denominator: "COUNT(DISTINCT candidateid) WHERE reached_entry_stage = true"
+  # Executable: candidates who hit the 'Placed' terminal (id=9).
+  numerator_sql: "COUNT(DISTINCT CASE WHEN log.candidatestatusid = 9 THEN log.candidateid END)"
+  required_partitions: ["accountid"]
+
+candidate_status_breakdown:
+  business_meaning: "Aggregated count of candidates in each stage of the hiring pipeline for a specific job. Breakdown of candidates by status stage."
+  source_table: "tblassignjobcandidate"
+  numerator_sql: "COUNT(log.id)"
+  required_partitions: ["accountid", "jobid"]
+  mandatory_tenant_filters: ["accountid"]
+  recommended_visualizations: ["bar", "funnel"]
+
+candidate_list:
+  business_meaning: "Show me all candidates in a specific stage/status across all active jobs. Detailed list of candidates in stage."
+  source_table: "tblassignjobcandidate"
+  numerator_sql: "candidate_list"
+  required_partitions: ["accountid"]
+  mandatory_tenant_filters: ["accountid"]
+  recommended_visualizations: ["table"]

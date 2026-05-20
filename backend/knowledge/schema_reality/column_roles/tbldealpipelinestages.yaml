@@ -1,0 +1,12 @@
+table: tbldealpipelinestages
+roles:
+- column: id
+  role: identifier
+- column: label
+  role: free_text
+- column: percentage
+  role: categorical_or_lifecycle_state
+- column: accountid
+  role: relationship_pointer
+- column: sequenceno
+  role: categorical

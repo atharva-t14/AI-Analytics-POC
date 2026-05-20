@@ -1,0 +1,24 @@
+operational_meanings:
+  forward_progression:
+    logic: "current_event.sequenceno > previous_event.sequenceno"
+    description: "Movement towards terminal hire stage."
+
+  backward_progression:
+    logic: "current_event.sequenceno < previous_event.sequenceno"
+    description: "Stage regression or move back to earlier pipeline phase."
+
+  terminal_stage:
+    logic: "current_event.label IN ('Placed', 'Rejected', 'Withdrawn')"
+    note: "Labels are tenant-configurable; sequenceno or specific flags in reality should be prioritized if available."
+
+  reactivation:
+    logic: "previous_event is terminal_stage AND current_event is NOT terminal_stage"
+    description: "Candidate moved back into active pipeline from a closed state."
+
+  stalled_pipeline:
+    logic: "DATEDIFF(now, latest_event.stagedate) > threshold_days"
+    description: "No transition events recorded for a specific duration."
+
+  parallel_pipeline:
+    logic: "COUNT(DISTINCT jobid) > 1 WHERE accountid = X AND candidateid = Y"
+    description: "Candidate is active in multiple job lifecycles simultaneously."

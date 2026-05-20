@@ -1,0 +1,57 @@
+benchmark_category: "time_to_hire"
+queries:
+  - id: "tth_001"
+    query: "time taken from applied to placed"
+    intent: "time_to_hire_overall"
+    domain: "time_to_hire_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+      - "placement_completed"
+    expected_dimensions: []
+    expected_metrics:
+      - "time_to_hire_avg"
+    expected_filters: []
+    expected_chart: 
+      type: "metric_card"
+    expected_sql_characteristics:
+      - "date diff calculation"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "tth_002"
+    query: "how long does it take to fill engineering roles?"
+    intent: "time_to_fill"
+    domain: "time_to_hire_analytics"
+    expected_events:
+      - "job_created"
+      - "placement_completed"
+    expected_dimensions:
+      - "job_category"
+    expected_metrics:
+      - "time_to_fill_avg"
+    expected_filters:
+      - "job_title LIKE 'engineer'"
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "join with tbljob"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+
+  - id: "tth_003"
+    query: "average days a candidate spends in the technical round"
+    intent: "time_in_stage"
+    domain: "time_to_hire_analytics"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions: []
+    expected_metrics:
+      - "time_in_stage_avg"
+    expected_filters:
+      - "stage = 'technical round'"
+    expected_chart: 
+      type: "metric_card"
+    expected_sql_characteristics:
+      - "lead/lag or min/max stagedate group by candidate"
+      - "tenant isolation"
+    ambiguity_level: "high"

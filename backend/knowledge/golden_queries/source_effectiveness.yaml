@@ -1,0 +1,59 @@
+benchmark_category: "source_effectiveness"
+queries:
+  - id: "src_001"
+    query: "best candidate source this quarter"
+    intent: "source_leaderboard"
+    domain: "source_effectiveness"
+    expected_events:
+      - "candidate_created"
+      - "placement_completed"
+    expected_dimensions:
+      - "source_name"
+    expected_metrics:
+      - "placement_count"
+    expected_filters:
+      - "date = this_quarter"
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "group by source"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+    clarification_requirements: "Does 'best' mean most placements, or highest conversion rate?"
+
+  - id: "src_002"
+    query: "how many candidates came from LinkedIn?"
+    intent: "source_volume"
+    domain: "source_effectiveness"
+    expected_events:
+      - "candidate_created"
+    expected_dimensions: []
+    expected_metrics:
+      - "candidate_count"
+    expected_filters:
+      - "source = 'LinkedIn'"
+    expected_chart: 
+      type: "metric_card"
+    expected_sql_characteristics:
+      - "fuzzy match on source or ILIKE"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "src_003"
+    query: "show conversion rates by source"
+    intent: "source_conversion"
+    domain: "source_effectiveness"
+    expected_events:
+      - "candidate_created"
+      - "placement_completed"
+    expected_dimensions:
+      - "source_name"
+    expected_metrics:
+      - "conversion_rate"
+    expected_filters: []
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "ratio of placed to created per source"
+      - "tenant isolation"
+    ambiguity_level: "low"

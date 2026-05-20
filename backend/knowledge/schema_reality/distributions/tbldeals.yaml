@@ -1,0 +1,105 @@
+table: tbldeals
+distributions:
+- column: migration_reserved1
+  total_distinct_in_sample: 1
+  top_values:
+  - value: '0'
+    frequency: 45538
+  - value: '40'
+    frequency: 5
+  - value: '29'
+    frequency: 5
+  - value: '25'
+    frequency: 5
+  - value: '36'
+    frequency: 5
+  - value: '32'
+    frequency: 5
+  - value: '24'
+    frequency: 5
+  - value: '45'
+    frequency: 5
+  - value: '48'
+    frequency: 5
+  - value: '27'
+    frequency: 5
+  - value: '39'
+    frequency: 5
+  - value: '26'
+    frequency: 5
+  - value: '22'
+    frequency: 5
+  - value: '38'
+    frequency: 5
+  - value: '37'
+    frequency: 5
+  - value: '46'
+    frequency: 5
+  - value: '35'
+    frequency: 5
+  - value: '28'
+    frequency: 5
+  - value: '17'
+    frequency: 5
+  - value: '41'
+    frequency: 5
+  - value: '23'
+    frequency: 5
+  - value: '42'
+    frequency: 5
+  - value: '44'
+    frequency: 5
+  - value: '33'
+    frequency: 5
+  - value: '31'
+    frequency: 5
+  - value: '43'
+    frequency: 5
+  - value: '47'
+    frequency: 5
+  - value: '20'
+    frequency: 5
+  - value: '21'
+    frequency: 5
+  - value: '11'
+    frequency: 4
+  - value: '77'
+    frequency: 4
+  - value: '3'
+    frequency: 4
+  - value: '92'
+    frequency: 4
+  - value: '63'
+    frequency: 4
+  - value: '73'
+    frequency: 4
+  - value: '5'
+    frequency: 4
+  - value: '50'
+    frequency: 4
+  - value: '85'
+    frequency: 4
+  - value: '89'
+    frequency: 4
+  - value: '112'
+    frequency: 4
+  - value: '13'
+    frequency: 4
+  - value: '125'
+    frequency: 4
+  - value: '145'
+    frequency: 4
+  - value: '109'
+    frequency: 4
+  - value: '12'
+    frequency: 4
+  - value: '83'
+    frequency: 4
+  - value: '60'
+    frequency: 4
+  - value: '94'
+    frequency: 4
+  - value: '16'
+    frequency: 4
+  - value: '75'
+    frequency: 4

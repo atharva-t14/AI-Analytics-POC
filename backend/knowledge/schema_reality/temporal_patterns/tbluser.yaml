@@ -1,0 +1,7 @@
+table: tbluser
+temporal_columns:
+- column: updatedon
+  type: int
+  inferred_behavior: unix_timestamp
+  min_observed: 1520676545
+  max_observed: 1778914497

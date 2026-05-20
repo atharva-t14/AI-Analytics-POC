@@ -1,0 +1,154 @@
+direct_joins:
+  - left_table: "tblassignjobcandidatelog"
+    right_table: "tblcandidate"
+    join_columns:
+      left: "candidateid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 candidate can have many log entries
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tblassignjobcandidatelog"
+    right_table: "tbljob"
+    join_columns:
+      left: "jobid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 job can have many log entries
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tblassignjobcandidatelog"
+    right_table: "tblcandidatestatus"
+    join_columns:
+      left: "candidatestatusid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 status can appear in many log entries
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tblassignjobcandidatelog"
+    right_table: "tbluser"
+    join_columns:
+      left: "createdby"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 user can create many log entries
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tblassignjobcandidate"
+    right_table: "tblcandidate"
+    join_columns:
+      left: "candidateid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N"
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tblassignjobcandidate"
+    right_table: "tbljob"
+    join_columns:
+      left: "jobid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N"
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tblassignjobcandidate"
+    right_table: "tblcandidatestatus"
+    join_columns:
+      left: "candidatestatusid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N"
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tblassignjobcandidate"
+    right_table: "tbluser"
+    join_columns:
+      left: "createdby"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N"
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tbldeals"
+    right_table: "tblcandidate"
+    join_columns:
+      left: "relatedcandidate"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 candidate can be related to many deals
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tbldeals"
+    right_table: "tbljob"
+    join_columns:
+      left: "related_job"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 job can be related to many deals
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tbldeals"
+    right_table: "tbluser"
+    join_columns:
+      left: "ownerid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 user can own many deals
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "deal_stage_history_t"
+    right_table: "tbldeals"
+    join_columns:
+      left: "deal_id"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 deal can have many stage history entries
+    tenant_boundary_columns: ["account_id", "accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tblcandidate"
+    right_table: "tbluser"
+    join_columns:
+      left: "ownerid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 user can own many candidates
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"
+
+  - left_table: "tbljob"
+    right_table: "tbluser"
+    join_columns:
+      left: "ownerid"
+      right: "id"
+    relationship_type: "many_to_one"
+    cardinality: "1:N" # 1 user can own many jobs
+    tenant_boundary_columns: ["accountid"]
+    confidence_level: "high"
+    source_of_truth: "foreign_key"

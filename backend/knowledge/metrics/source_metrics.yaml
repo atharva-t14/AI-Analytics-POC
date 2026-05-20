@@ -1,0 +1,17 @@
+source_quality_score:
+  business_meaning: "Relative value of a source based on placement conversion."
+  numerator: "source_to_placement_rate"
+  denominator: "average_source_to_placement_rate"
+  attribution_preservation: "Carried from tblcandidate.source through all partitions via candidateid join."
+
+source_to_placement_rate:
+  business_meaning: "Conversion rate from candidate sourcing to placement per source."
+  numerator: "COUNT(DISTINCT candidateid) WHERE reached_stage = 'Placed'"
+  denominator: "COUNT(DISTINCT candidateid) WHERE source = X"
+  required_partitions: ["accountid"]
+
+source_conversion_rate:
+  business_meaning: "Rate of sourced candidates being submitted to at least one job."
+  numerator: "COUNT(DISTINCT candidateid) WHERE has_submission = true"
+  denominator: "COUNT(DISTINCT candidateid)"
+  required_partitions: ["accountid"]

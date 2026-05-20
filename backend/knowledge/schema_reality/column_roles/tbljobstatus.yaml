@@ -1,0 +1,10 @@
+table: tbljobstatus
+roles:
+- column: id
+  role: identifier
+- column: label
+  role: free_text
+- column: accountid
+  role: relationship_pointer
+- column: sequenceno
+  role: categorical

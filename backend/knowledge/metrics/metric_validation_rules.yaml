@@ -1,0 +1,20 @@
+hard_validation_constraints:
+  - scope: "recruiter_metrics"
+    constraint: "MUST partition by accountid"
+    reason: "Prevent cross-tenant credit attribution."
+
+  - scope: "funnel_metrics"
+    constraint: "MUST partition by jobid"
+    reason: "A funnel is only valid within the context of a specific job requirement."
+
+  - scope: "all_metrics"
+    constraint: "NO metric may aggregate across tenants (accountid)"
+    severity: "CRITICAL"
+
+  - scope: "dwell_time_metrics"
+    constraint: "REQUIRES ordered stagedate"
+    reason: "Duration calculations are invalid without temporal sequence."
+
+  - scope: "replay_required_metrics"
+    constraint: "CANNOT use snapshot tables alone"
+    reason: "Snapshots lack the transition logs necessary for history reconstruction."

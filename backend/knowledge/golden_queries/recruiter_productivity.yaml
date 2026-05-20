@@ -1,0 +1,190 @@
+benchmark_category: "recruiter_productivity"
+queries:
+  - id: "prod_001"
+    query: "which recruiter closes fastest?"
+    intent: "recruiter_efficiency"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "candidate_submitted_to_job"
+      - "placement_completed"
+    expected_dimensions:
+      - "recruiter"
+    expected_metrics:
+      - "time_to_hire_avg"
+    expected_filters: []
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "aggregation by recruiter"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+
+  - id: "prod_002"
+    query: "Who submitted the most candidates this week?"
+    intent: "recruiter_activity"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "candidate_submitted_to_job"
+    expected_dimensions:
+      - "recruiter"
+    expected_metrics:
+      - "submission_count"
+    expected_filters:
+      - "createdon = this_week"
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "aggregation by createdby"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "prod_003"
+    query: "Show me the top recruiters by placements"
+    intent: "recruiter_leaderboard"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "placement_completed"
+    expected_dimensions:
+      - "recruiter"
+    expected_metrics:
+      - "placement_count"
+    expected_filters: []
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "order by count desc"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "prod_004"
+    query: "How many jobs did Sarah create?"
+    intent: "recruiter_activity"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "job_created"
+    expected_dimensions: []
+    expected_metrics:
+      - "job_count"
+    expected_filters:
+      - "createdby = 'Sarah'"
+    expected_chart: 
+      type: "metric_card"
+    expected_sql_characteristics:
+      - "filter on createdby / ownerid"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "prod_005"
+    query: "compare placements between John and Mike this year"
+    intent: "recruiter_comparison"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "placement_completed"
+    expected_dimensions:
+      - "recruiter"
+    expected_metrics:
+      - "placement_count"
+    expected_filters:
+      - "recruiter IN ('John', 'Mike')"
+      - "date = this_year"
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "group by recruiter"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "prod_006"
+    query: "recruiter activity summary for last month"
+    intent: "recruiter_activity_summary"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "candidate_created"
+      - "candidate_submitted_to_job"
+      - "job_created"
+    expected_dimensions:
+      - "recruiter"
+    expected_metrics:
+      - "activity_count"
+    expected_filters:
+      - "date = last_month"
+    expected_chart: 
+      type: "table"
+    expected_sql_characteristics:
+      - "union or multiple aggregates"
+      - "tenant isolation"
+    ambiguity_level: "high"
+
+  - id: "prod_007"
+    query: "who has the best submittal to hire ratio?"
+    intent: "recruiter_efficiency"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "candidate_submitted_to_job"
+      - "placement_completed"
+    expected_dimensions:
+      - "recruiter"
+    expected_metrics:
+      - "conversion_rate"
+    expected_filters: []
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "ratio of two counts"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+
+  - id: "prod_008"
+    query: "what is the average number of interviews per recruiter?"
+    intent: "recruiter_activity"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions: []
+    expected_metrics:
+      - "interview_count_avg"
+    expected_filters:
+      - "stage = 'Interview'"
+    expected_chart: 
+      type: "metric_card"
+    expected_sql_characteristics:
+      - "count divided by distinct recruiters"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+
+  - id: "prod_009"
+    query: "show inactive recruiters who haven't made a placement in 90 days"
+    intent: "recruiter_inactivity"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "placement_completed"
+    expected_dimensions:
+      - "recruiter"
+    expected_metrics:
+      - "days_since_last_placement"
+    expected_filters:
+      - "days > 90"
+    expected_chart: 
+      type: "table"
+    expected_sql_characteristics:
+      - "max date filter"
+      - "tenant isolation"
+    ambiguity_level: "medium"
+
+  - id: "prod_010"
+    query: "who generates the most revenue?"
+    intent: "recruiter_leaderboard"
+    domain: "recruiter_productivity"
+    expected_events:
+      - "deal_closed_won"
+    expected_dimensions:
+      - "recruiter"
+    expected_metrics:
+      - "revenue_sum"
+    expected_filters: []
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "sum of dealvalue"
+      - "tenant isolation"
+    ambiguity_level: "medium"

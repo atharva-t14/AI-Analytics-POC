@@ -1,0 +1,17 @@
+table: tbldeals
+foreign_keys:
+- column: accountid
+  references_table: tblaccount
+  references_column: id
+- column: relatedcompany
+  references_table: tblcompany
+  references_column: id
+- column: dealstage
+  references_table: tbldealpipelinestages
+  references_column: id
+- column: dealtype
+  references_table: tbldealtypes
+  references_column: id
+- column: ownerid
+  references_table: tbluser
+  references_column: id

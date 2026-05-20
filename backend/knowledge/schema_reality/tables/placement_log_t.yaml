@@ -1,0 +1,30 @@
+table_name: placement_log_t
+columns:
+  - name: id
+    type: int
+  - name: placement_srno
+    type: int
+  - name: company_id
+    type: int
+  - name: currency_id
+    type: int
+  - name: archived
+    type: tinyint
+  - name: account_id
+    type: int
+  - name: created_by
+    type: int
+  - name: updated_by
+    type: int
+  - name: created_at
+    type: int
+  - name: updated_at
+    type: int
+  - name: migration_reserved1
+    type: varchar
+  - name: migration_reserved2
+    type: varchar
+  - name: candidate_id
+    type: int
+  - name: job_id
+    type: int

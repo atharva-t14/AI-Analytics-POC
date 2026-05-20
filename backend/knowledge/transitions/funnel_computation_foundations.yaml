@@ -1,0 +1,24 @@
+metric_formulas:
+  conversion_rate:
+    numerator: "COUNT(DISTINCT candidateid) WHERE max_reached_sequenceno >= target_stage_seq"
+    denominator: "COUNT(DISTINCT candidateid) WHERE max_reached_sequenceno >= source_stage_seq"
+    partition: ["accountid", "jobid"]
+
+  dropoff_rate:
+    formula: "1 - conversion_rate"
+
+  dwell_time:
+    calculation: "next_event.stagedate - current_event.stagedate"
+    unit: "seconds"
+    aggregation: "AVG"
+
+  stage_aging:
+    calculation: "current_timestamp - latest_event.stagedate"
+    condition: "latest_event is NOT terminal_stage"
+
+  funnel_velocity:
+    calculation: "terminal_event.stagedate - initial_event.stagedate"
+    description: "Total time from application to hire/rejection."
+
+  recruiter_throughput:
+    calculation: "COUNT(DISTINCT candidateid) WHERE event = 'placement' GROUP BY createdby"

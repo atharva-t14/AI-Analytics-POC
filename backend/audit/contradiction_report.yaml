@@ -1,0 +1,21 @@
+contradictions:
+  - id: "CONTRADICTION_001_PARTITION_KEY_MISMATCH"
+    type: "Partition Conflict"
+    description: "Inconsistent naming of tenant isolation keys across operational tables."
+    details:
+      accountid: ["tblcandidate", "tblassignjobcandidatelog", "tbljob", "tbluser", "tblcandidatestatus"]
+      account_id: ["deal_stage_history_t", "placement_log_t"]
+    risk: "Medium. The SQL Compiler must be aware of the specific column name per table to prevent invalid query generation."
+    resolution: "Compiler's partition_enforcement.yaml must use table-specific metadata rather than a global assumption."
+
+  - id: "CONTRADICTION_002_TEMPORAL_PRECEDENCE"
+    type: "Temporal Conflict"
+    description: "Mixed usage of Unix timestamps (int) and potential datetime strings (though schema reality confirms mostly int)."
+    risk: "Low. All detected history tables use int (Unix seconds), maintaining consistency with core tblcandidate createdon."
+    resolution: "Replay engine explicitly set to Unix seconds."
+
+  - id: "CONTRADICTION_003_SEMANTIC_OVERLAP"
+    type: "Semantic Conflict"
+    description: "The concept 'placement' exists both as a stage in tblassignjobcandidatelog and as an entry in placement_log_t."
+    risk: "Medium. Potential for double-counting placements if not handled."
+    resolution: "Metric definitions explicitly declare tblassignjobcandidatelog as the primary source for funnel progression, and placement_log_t for historical verification."

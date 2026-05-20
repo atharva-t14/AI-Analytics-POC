@@ -1,0 +1,659 @@
+table: tblassignjobcandidate
+distributions:
+- column: billingamount
+  total_distinct_in_sample: 12
+  top_values:
+  - value: '0'
+    frequency: 358613
+  - value: '1000'
+    frequency: 5
+  - value: '10000'
+    frequency: 4
+  - value: '8'
+    frequency: 1
+  - value: '25000'
+    frequency: 1
+  - value: '105000'
+    frequency: 1
+  - value: '2'
+    frequency: 1
+  - value: '45214748'
+    frequency: 1
+  - value: '7'
+    frequency: 1
+  - value: '9'
+    frequency: 1
+  - value: '9999'
+    frequency: 1
+  - value: '123'
+    frequency: 1
+  - value: '291'
+    frequency: 1
+  - value: '12345'
+    frequency: 1
+  - value: '5'
+    frequency: 1
+  - value: '1'
+    frequency: 1
+  - value: '5000'
+    frequency: 1
+  - value: '3000'
+    frequency: 1
+- column: tax
+  total_distinct_in_sample: 8
+  top_values:
+  - value: '0'
+    frequency: 358622
+  - value: '100'
+    frequency: 3
+  - value: '1'
+    frequency: 2
+  - value: '12'
+    frequency: 2
+  - value: '100.25'
+    frequency: 1
+  - value: '0.01'
+    frequency: 1
+  - value: '101'
+    frequency: 1
+  - value: '500'
+    frequency: 1
+  - value: '3'
+    frequency: 1
+  - value: '2'
+    frequency: 1
+  - value: '15007'
+    frequency: 1
+  - value: '20000'
+    frequency: 1
+- column: total
+  total_distinct_in_sample: 13
+  top_values:
+  - value: '0'
+    frequency: 358613
+  - value: '1000'
+    frequency: 3
+  - value: '10100'
+    frequency: 3
+  - value: '135'
+    frequency: 1
+  - value: '1100'
+    frequency: 1
+  - value: '25000'
+    frequency: 1
+  - value: '125000'
+    frequency: 1
+  - value: '2'
+    frequency: 1
+  - value: '10000'
+    frequency: 1
+  - value: '45229755'
+    frequency: 1
+  - value: '9'
+    frequency: 1
+  - value: '12'
+    frequency: 1
+  - value: '1500'
+    frequency: 1
+  - value: '8'
+    frequency: 1
+  - value: '291'
+    frequency: 1
+  - value: '12357'
+    frequency: 1
+  - value: '10000.01'
+    frequency: 1
+  - value: '6.00'
+    frequency: 1
+  - value: '2.00'
+    frequency: 1
+  - value: '5000.00'
+    frequency: 1
+  - value: '3100.25'
+    frequency: 1
+- column: invoiceid
+  total_distinct_in_sample: 24
+  top_values:
+  - value: '1'
+    frequency: 2
+  - value: '9987'
+    frequency: 1
+  - value: INV25
+    frequency: 1
+  - value: '101'
+    frequency: 1
+  - value: INV10
+    frequency: 1
+  - value: INV110
+    frequency: 1
+  - value: INV210
+    frequency: 1
+  - value: '2'
+    frequency: 1
+  - value: rcrmcd3
+    frequency: 1
+  - value: '1234'
+    frequency: 1
+  - value: '75421'
+    frequency: 1
+  - value: '11244'
+    frequency: 1
+  - value: '11245'
+    frequency: 1
+  - value: '002'
+    frequency: 1
+  - value: '12345'
+    frequency: 1
+  - value: random112
+    frequency: 1
+  - value: '7687'
+    frequency: 1
+  - value: '03'
+    frequency: 1
+  - value: '786878'
+    frequency: 1
+  - value: '1234556'
+    frequency: 1
+  - value: InvoiceNo_001
+    frequency: 1
+  - value: id1
+    frequency: 1
+  - value: '3'
+    frequency: 1
+  - value: '222'
+    frequency: 1
+- column: companyslug
+  total_distinct_in_sample: 9
+  top_values:
+  - value: 177784643836601210ent
+    frequency: 25733
+  - value: 177784643836600808clx
+    frequency: 17634
+  - value: 177784643837222671fou
+    frequency: 10904
+  - value: 177784643837009282gpt
+    frequency: 9633
+  - value: 177784643836601223hqs
+    frequency: 9217
+  - value: 177784643837718482gpv
+    frequency: 9173
+  - value: 177784643836601215jsy
+    frequency: 7604
+  - value: 177784643837621942gps
+    frequency: 4459
+  - value: 177784643836601237bks
+    frequency: 3951
+  - value: 177784643837718480ent
+    frequency: 3926
+  - value: 17775155780000522cHm
+    frequency: 3157
+  - value: 177784643836645910eny
+    frequency: 2842
+  - value: 177784643836601218clu
+    frequency: 2490
+  - value: 177784643837999034iru
+    frequency: 2438
+  - value: 177784643836601219dmv
+    frequency: 2046
+  - value: 177784643836773768clu
+    frequency: 2017
+  - value: 177580451328317602044sHr
+    frequency: 2001
+  - value: 177784643836666590ent
+    frequency: 1994
+  - value: 151028626731313182bku
+    frequency: 1973
+  - value: 177784643836601226ajv
+    frequency: 1813
+  - value: 175654292233333333dmv
+    frequency: 1790
+  - value: 17775155780005360aFk
+    frequency: 1697
+  - value: 156990075231313210jsu
+    frequency: 1513
+  - value: 177784643837720514irx
+    frequency: 1344
+  - value: 177784643837037853hqx
+    frequency: 1341
+  - value: 177784643837698736ajw
+    frequency: 1313
+  - value: 177322533121213982bky
+    frequency: 1310
+  - value: 17419253646030000004ffc
+    frequency: 1294
+  - value: 177784643837379215jsx
+    frequency: 1243
+  - value: 177784643837205892gpu
+    frequency: 1216
+  - value: 148936665431313136fox
+    frequency: 1188
+  - value: 177784643837064391foy
+    frequency: 1182
+  - value: 177784643837757305jsw
+    frequency: 1108
+  - value: 177784643837568479dmv
+    frequency: 1083
+  - value: 17775155780000620aFk
+    frequency: 1018
+  - value: 17732455830760014552bMx
+    frequency: 984
+  - value: 17736478470000019cHm
+    frequency: 983
+  - value: 17731161703114552cly
+    frequency: 983
+  - value: 17732957800000019cHm
+    frequency: 983
+  - value: 177784643837038998clu
+    frequency: 978
+  - value: 177784643836645656ajw
+    frequency: 973
+  - value: 177322533121213278hqu
+    frequency: 967
+  - value: 148650521131313134dmv
+    frequency: 967
+  - value: 17775155780002925fKp
+    frequency: 957
+  - value: 17775155780007612cHm
+    frequency: 922
+  - value: 177784643837607780eny
+    frequency: 914
+  - value: 17775155780006030aFk
+    frequency: 896
+  - value: 17775155780001521bGl
+    frequency: 867
+  - value: 177322533121213460jsu
+    frequency: 865
+  - value: 177322533121213209irv
+    frequency: 856
+- column: contactslug
+  total_distinct_in_sample: 38
+  top_values:
+  - value: 177784694341461030ajs
+    frequency: 10783
+  - value: 177784694349293908irw
+    frequency: 7962
+  - value: 177784694346519496gps
+    frequency: 5359
+  - value: 177784694347804136gps
+    frequency: 4456
+  - value: 177784694349145849jsu
+    frequency: 3500
+  - value: 177784694335153138irw
+    frequency: 2694
+  - value: 177784694333105930aju
+    frequency: 2676
+  - value: 177784694354173450ajs
+    frequency: 2438
+  - value: 17775167170111626gLq
+    frequency: 2230
+  - value: 177784694344898672clx
+    frequency: 2198
+  - value: 177784694333204768irs
+    frequency: 2179
+  - value: 177784694347718307hqx
+    frequency: 2114
+  - value: 177580451375217602044WOl
+    frequency: 2001
+  - value: 177784694345312137hqt
+    frequency: 1834
+  - value: 177784694349010356gpt
+    frequency: 1248
+  - value: 177784694348908893dmv
+    frequency: 1169
+  - value: 17252610702071311610bzG
+    frequency: 1134
+  - value: 177784694349182234ent
+    frequency: 1133
+  - value: 177784694349128150ajy
+    frequency: 1115
+  - value: 177784694347301737hqx
+    frequency: 1060
+  - value: 177784694349097612clu
+    frequency: 1014
+  - value: 177784694352724643dmw
+    frequency: 983
+  - value: 177784694335145895foy
+    frequency: 958
+  - value: 177784694348409765fov
+    frequency: 932
+  - value: 177784694347114728irt
+    frequency: 921
+  - value: 177784694337971198irw
+    frequency: 918
+  - value: 17775167170063668iNs
+    frequency: 831
+  - value: 177784694347892053dmw
+    frequency: 805
+  - value: 177784694333673396gpy
+    frequency: 793
+  - value: 177322537445460874jst
+    frequency: 780
+  - value: 177784694333204758irw
+    frequency: 777
+  - value: 177784694346519629jss
+    frequency: 774
+  - value: 177784694352172308irw
+    frequency: 772
+  - value: 177784694348680427hqv
+    frequency: 726
+  - value: 177322537445458519enx
+    frequency: 708
+  - value: 177784694346437088irv
+    frequency: 708
+  - value: 177784694333674208iry
+    frequency: 682
+  - value: 177784694354449879jsy
+    frequency: 662
+  - value: 177784694349933435fow
+    frequency: 645
+  - value: 177784694347677746gpu
+    frequency: 629
+  - value: 17775167170113086gLq
+    frequency: 624
+  - value: 17775167170090595fKp
+    frequency: 621
+  - value: 177784694343182089jsw
+    frequency: 611
+  - value: 165388296321230686fot
+    frequency: 589
+  - value: 177784694347069607hqu
+    frequency: 587
+  - value: 177784694347597099jsu
+    frequency: 574
+  - value: 177322537445458658dmw
+    frequency: 570
+  - value: 177784694333506690ajx
+    frequency: 548
+  - value: 177784694335731100ajw
+    frequency: 548
+  - value: 17775167170006533dIn
+    frequency: 543
+- column: invoiceurl
+  total_distinct_in_sample: 32
+  top_values:
+  - value: Project Ended
+    frequency: 5725
+  - value: Moved to Another Req
+    frequency: 5536
+  - value: CN Withdrew - No Feedback Given
+    frequency: 5379
+  - value: Phone Screened - Not Submitted - See Notes
+    frequency: 3435
+  - value: Dispositioned - No rejection remark needed
+    frequency: 3377
+  - value: HM Interviewed - Rejected - See Notes
+    frequency: 2688
+  - value: CN Withdrew - Unresponsive
+    frequency: 2627
+  - value: Resume Reviewed - Not a Fit
+    frequency: 2459
+  - value: HM Reviewed - Rejected - No Feedback
+    frequency: 2410
+  - value: Candidate Not Interested - Location/Relo/Commute
+    frequency: 1785
+  - value: Candidate Not Interested - Scope of Position
+    frequency: 1281
+  - value: No Show for Phone Screen
+    frequency: 946
+  - value: Candidate Not Interested - Comp.
+    frequency: 810
+  - value: HM Reviewed - Rejected - See Notes
+    frequency: 709
+  - value: Offer Declined - Accepted Another Position
+    frequency: 663
+  - value: HM Reviewed - Rejected - Min Quals
+    frequency: 658
+  - value: Candidate Not Interested - Shift/Schedule
+    frequency: 589
+  - value: No Show for HM Interview
+    frequency: 395
+  - value: Client Employee
+    frequency: 256
+  - value: Phone Screened - Not Submitted - Rehire Eligibility
+    frequency: 218
+  - value: Offer Rescinded - Failed Pre-Employment Checks
+    frequency: 186
+  - value: Offer Declined - Compensation
+    frequency: 186
+  - value: Unresponsive Hiring Manager
+    frequency: 176
+  - value: HM Reviewed - Rejected - Internal Applicants
+    frequency: 166
+  - value: CN Withdrew - Took Another Position
+    frequency: 116
+  - value: Candidate Not Interested - Not Interested in a Change
+    frequency: 114
+  - value: HM Interviewed - Rejected - Poor Interview
+    frequency: 113
+  - value: CN Withdrew - Scope of Position
+    frequency: 91
+  - value: CN Withdrew - Commute/Relocation
+    frequency: 77
+  - value: HM Reviewed - Rejected - Not Accepting New Grads
+    frequency: 65
+  - value: CN Withdrew - Personal Reasons
+    frequency: 49
+  - value: Offer Declined - Post Acceptance
+    frequency: 49
+  - value: CN Withdrew - Compensation
+    frequency: 26
+  - value: HM Interviewed - Rejected - Min Quals
+    frequency: 19
+  - value: Position Canceled by Client
+    frequency: 19
+  - value: Offer Declined - Personal Reasons
+    frequency: 18
+  - value: Unresponsive Recruiter
+    frequency: 13
+  - value: CN Withdrew - Length of Process
+    frequency: 9
+  - value: Offer Rescinded - Poor References
+    frequency: 5
+  - value: Offer Rescinded - Other (See Notes)
+    frequency: 4
+  - value: Offer Declined - Commute
+    frequency: 4
+  - value: Offer Declined - Shift Preferences
+    frequency: 2
+  - value: files/1683/Billing/18759/invoice.pdf
+    frequency: 1
+  - value: Offer Declined - Unresponsive
+    frequency: 1
+  - value: files/226348/Billing/5179585/invoice.pdf
+    frequency: 1
+  - value: files/3176/Billing/5212551/invoice.pdf
+    frequency: 1
+  - value: files/146547/Billing/5225486/invoice.pdf
+    frequency: 1
+  - value: files/1233448/Billing/14414670/invoice.pdf
+    frequency: 1
+  - value: files/1683/Billing/14847/invoice.pdf
+    frequency: 1
+- column: formatted_cv
+  total_distinct_in_sample: 28
+  top_values:
+  - value: 1808429/Candidates/17667306126357017887OUT/entity_file_2,UI (9).html
+    frequency: 1
+  - value: https://mystafflocal-ireland.s3.eu-west-1.amazonaws.com/4788530/Candidates/177893114314318704514eiG/entity_file_1,sandeep_resume.pdf
+    frequency: 1
+  - value: https://mystafflocal-ireland.s3.eu-west-1.amazonaws.com/4787342/Candidates/177892497208518699761jdy/entity_file_1,sandeep_resume.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4774619/Candidates/177875445546118649379kKW/entity_file_1,sandeep_resume.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4768478/Candidates/177871983482518625109rRI/entity_file_1,sandeep_resume.pdf
+    frequency: 1
+  - value: 3687374/Candidates/177435016696314366621xUN/entity_file_1,OOPslab8Print.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177314897897016043873MIW/entity_file_4,15mb.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177314897897016043873MIW/entity_file_1,Shivam_Backend.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177272722066116043873YlQ/entity_file_16,15mb.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177304856107216043873wjb/entity_file_1,Shivam_Backend.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177269736991516043873GXA/entity_file_4,WOLVES
+      INT LETTER FOR RITIK.pdf
+    frequency: 1
+  - value: 1233448/Candidates/17550929653524801562yPl/entity_file_1,image (24).png
+    frequency: 1
+  - value: 3826829/Candidates/176786490227314914401DTC/entity_file_1,My Resume.pdf
+    frequency: 1
+  - value: 3826848/Candidates/176768421129914914474kUp/entity_file_1,resume-withpic.pdf
+    frequency: 1
+  - value: "2352/Candidates/7324877/entity_file_1,\u05E7\u05E8\u05D5\u05DC\u05D9\u05E0\
+      \u05D4 \u05E4\u05D9\u05E0\u05E7 (1) (1) (2) (5).doc"
+    frequency: 1
+  - value: 1233448/Candidates/17652288663924801562kfY/entity_file_1,deck-plan.pdf
+    frequency: 1
+  - value: 7475/Candidates/17404023360160008457yUe/entity_file_3,Cybertix- XSS.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/2229647/Candidates/17579171935678649407PFo/entity_file_4,failed.xml
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/2229647/Candidates/17579154610858649407ZpE/entity_file_1,Ajendra_Singh_Resume.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/2184393/Candidates/17471275080568471973IsD/entity_file_1,sample-pdf-15.4mb.pdf
+    frequency: 1
+  - value: 226247/Candidates/17327152252590816723GbJ/entity_file_1,Subbu_Kumar.pdf
+    frequency: 1
+  - value: 724090/Candidates/17101551644482794413GnR/entity_file_15,UGVCL Bill view.pdf
+    frequency: 1
+  - value: 455342/Candidates/17210580318841720147Wax/entity_file_1,Creational_Patterns_Chapter.pdf
+    frequency: 1
+  - value: "321344/Candidates/17123359729831189662PmF/entity_file_1,Screenshot 2024-04-17\
+      \ at 2.22.38\u202FPM.png"
+    frequency: 1
+  - value: 2352/Candidates/16324655243940003464rWw/entity_file_1,Candidates_List_2022_9_3_3_58_56.csv
+    frequency: 1
+  - value: 1512/Candidates/16371479919960002184qxU/entity_file_1,Profile (1).pdf
+    frequency: 1
+  - value: 1512/Candidates/16371483703430002184hjr/profilepic,profilepic.jpg
+    frequency: 1
+  - value: 2352/Candidates/16324655243940003464rWw/resumefilename,Vaibhav Khatod -
+      CV (1) (1).docx
+    frequency: 1
+- column: coverletter
+  total_distinct_in_sample: 9
+  top_values:
+  - value: 2352/Candidates/7324877/entity_file_2,Pankaj Suneja's resume.docx
+    frequency: 1
+  - value: 1512/Candidates/16371483703430002184hjr/profilepic,profilepic.jpg
+    frequency: 1
+  - value: 1512/Candidates/16371479919960002184qxU/entity_file_2,Profile (2).pdf
+    frequency: 1
+  - value: 724090/Candidates/17101551644482794413GnR/entity_file_16,Welcome to UGVCL
+      Consumer Web Portal.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/2184393/Candidates/17471275080568471973IsD/entity_file_3,sample-pdf-15.4mb.pdf
+    frequency: 1
+  - value: 7475/Candidates/17404023360160008457yUe/entity_file_4,white.jpg
+    frequency: 1
+  - value: 1233448/Candidates/17550929653524801562yPl/entity_file_2,image (24).png
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177272722066116043873YlQ/entity_file_18,15mb.pdf
+    frequency: 1
+  - value: 3687374/Candidates/177435016696314366621xUN/entity_file_1,OOPslab8Print.pdf
+    frequency: 1
+- column: portfolio
+  total_distinct_in_sample: 14
+  top_values:
+  - value: 2352/Candidates/7324877/entity_file_1,Resume (4) (1).pdf
+    frequency: 1
+  - value: 2352/Candidates/16324655243940003464rWw/entity_file_1,Screenshot 2022-03-15
+      at 3.12.38 PM.png
+    frequency: 1
+  - value: 1512/Candidates/16371483703430002184hjr/profilepic,profilepic.jpg
+    frequency: 1
+  - value: 1512/Candidates/16371479919960002184qxU/entity_file_3,Profile (3).pdf
+    frequency: 1
+  - value: 2352/Candidates/16324655243940003464rWw/entity_file_2,VISHAL Manual (1).pdf
+    frequency: 1
+  - value: 30997/Candidates/517039188943420080002WvV/entity_file_1,Candidates_List_2024_11_1_12_36_02.csv
+    frequency: 1
+  - value: 724090/Candidates/17101551644482794413GnR/entity_file_17,Invoice-11121140-0007.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/2184393/Candidates/17471275080568471973IsD/entity_file_6,sample-pdf-15.4mb.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177272722066116043873YlQ/entity_file_21,15mb.pdf
+    frequency: 1
+  - value: 3687374/Candidates/177435016696314366621xUN/entity_file_1,OOPslab8Print.pdf
+    frequency: 1
+  - value: 4768341/Candidates/177871952441918624561fdC/entity_file_1,AnchitResume1.pdf
+    frequency: 1
+  - value: 4772071/Candidates/177875205074918639501LYV/entity_file_1,AnchitResume1.pdf
+    frequency: 1
+  - value: 4774195/Candidates/177875405247418647686KcC/entity_file_1,AnchitResume1.pdf
+    frequency: 1
+  - value: 4780248/Candidates/177877442408918671740MOp/entity_file_1,AnchitResume1.pdf
+    frequency: 1
+- column: other_file_1
+  total_distinct_in_sample: 19
+  top_values:
+  - value: 3687374/Candidates/177435016696314366621xUN/entity_file_1,OOPslab8Print.pdf
+    frequency: 1
+  - value: "4780247/Candidates/177877441521218671736QwZ/entity_file_1,\u05E7\u05E8\
+      \u05D5\u05DC\u05D9\u05E0\u05D4 \u05E4\u05D9\u05E0\u05E7.doc"
+    frequency: 1
+  - value: 4780246/Candidates/177877441324418671732Vdr/entity_file_2,VaibhavParser.docx
+    frequency: 1
+  - value: 4774197/Candidates/177875405809118647694GPk/entity_file_1,VaibhavParser.docx
+    frequency: 1
+  - value: "4774199/Candidates/177875405808818647702TUF/entity_file_1,\u05E7\u05E8\
+      \u05D5\u05DC\u05D9\u05E0\u05D4 \u05E4\u05D9\u05E0\u05E7.doc"
+    frequency: 1
+  - value: 4772076/Candidates/177875205739318639521Nmu/entity_file_1,VaibhavParser.docx
+    frequency: 1
+  - value: "4772077/Candidates/177875205074918639524hxV/entity_file_1,\u05E7\u05E8\
+      \u05D5\u05DC\u05D9\u05E0\u05D4 \u05E4\u05D9\u05E0\u05E7.doc"
+    frequency: 1
+  - value: 4768342/Candidates/177871952443918624562Myt/entity_file_1,VaibhavParser.docx
+    frequency: 1
+  - value: "4768340/Candidates/177871952441618624557dnG/entity_file_1,\u05E7\u05E8\
+      \u05D5\u05DC\u05D9\u05E0\u05D4 \u05E4\u05D9\u05E0\u05E7.doc"
+    frequency: 1
+  - value: 52187/Candidates/17731221204045053710BJQ/resumefilename,Resume_EyalCee
+      (1).docx
+    frequency: 1
+  - value: 2352/Candidates/7324877/entity_file_2,Pankaj Suneja's resume.docx
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177272722066116043873YlQ/entity_file_25,15mb.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/3826829/Candidates/177158640815714914401lgG/entity_file_1,SCS-HLD
+      - Website Builder-120226-091051.pdf
+    frequency: 1
+  - value: "3882243/Candidates/176855096027815129362NUL/entity_file_1,Screenshot 2026-01-07\
+      \ at 3.47.42\u202FPM.png"
+    frequency: 1
+  - value: 1233448/Candidates/17550929653524801562yPl/entity_file_3,image (24).png
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/2184393/Candidates/17471275080568471973IsD/entity_file_10,sample-pdf-15.4mb.pdf
+    frequency: 1
+  - value: 724090/Candidates/17101551644482794413GnR/entity_file_18,Invoice-FABD16A0-0008.pdf
+    frequency: 1
+  - value: 1512/Candidates/16371479919960002184qxU/entity_file_4,Profile (4).pdf
+    frequency: 1
+  - value: 1512/Candidates/16371483703430002184hjr/profilepic,profilepic.jpg
+    frequency: 1
+- column: other_file_2
+  total_distinct_in_sample: 9
+  top_values:
+  - value: 2352/Candidates/7324877/entity_file_3,#76 EXTERN  - Job Description Data
+      Engineer (1).pdf
+    frequency: 1
+  - value: 1512/Candidates/16371483703430002184hjr/profilepic,profilepic.jpg
+    frequency: 1
+  - value: 1512/Candidates/16371479919960002184qxU/entity_file_5,Profile (5).pdf
+    frequency: 1
+  - value: 724090/Candidates/17101551644482794413GnR/entity_file_19,Receipt-2650-2756.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/2184393/Candidates/17471275080568471973IsD/entity_file_15,sample-pdf-15.4mb.pdf
+    frequency: 1
+  - value: 1808429/Candidates/17667306126357017887OUT/entity_file_3,API (3).html
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/3826829/Candidates/176786490227314914401DTC/entity_file_3,My
+      Resume.pdf
+    frequency: 1
+  - value: https://mystafflocal-mumbai.s3.ap-south-1.amazonaws.com/4115694/Candidates/177272722066116043873YlQ/entity_file_30,15mb.pdf
+    frequency: 1
+  - value: 3687374/Candidates/177435016696314366621xUN/entity_file_1,OOPslab8Print.pdf
+    frequency: 1

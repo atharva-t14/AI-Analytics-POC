@@ -1,0 +1,12 @@
+error_count: 4
+errors:
+- 'Missing table: tblassignjobcandidatelog in safe_paths'
+- 'Missing table: tblassignjobcandidatelog in safe_paths'
+- 'Missing table: tblassignjobcandidatelog in safe_paths'
+- 'Missing table: tblassignjobcandidatelog in safe_paths'
+subsystem_status:
+  joins: FAIL
+  metrics: PASS
+  planner: PASS
+  schema: PASS
+verdict: NOT_READY

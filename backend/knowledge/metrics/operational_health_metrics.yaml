@@ -1,0 +1,22 @@
+stalled_pipeline_count:
+  business_meaning: "Number of active assignments with no activity for > 14 days."
+  threshold_logic: "now() - latest_log.stagedate > (14 * 86400)"
+  required_events: ["candidate_stage_changed"]
+  required_partitions: ["accountid", "jobid"]
+
+aging_candidates:
+  business_meaning: "Candidates who have been in the same non-terminal stage for too long."
+  threshold_logic: "stage_dwell_time > stage_specific_threshold"
+
+inactive_jobs:
+  business_meaning: "Jobs with no candidate activity for > 30 days."
+  threshold_logic: "now() - MAX(tblassignjobcandidatelog.stagedate) > (30 * 86400)"
+
+recruiter_overload_score:
+  business_meaning: "Ratio of active pipeline load to recruiter capacity."
+  numerator: "recruiter_pipeline_load"
+  denominator: "fixed_capacity_threshold (e.g., 50)"
+
+bottleneck_stage_detection:
+  business_meaning: "Stages where dwell time is > 2 standard deviations above average."
+  threshold_logic: "dwell_time > (AVG(dwell_time) + 2 * STDDEV(dwell_time))"

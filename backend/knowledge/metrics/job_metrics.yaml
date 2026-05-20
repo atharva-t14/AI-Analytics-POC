@@ -1,0 +1,17 @@
+job_creation_trend:
+  business_meaning: "Monthly trend of job creations."
+  source_table: "tbljob"
+  numerator: "COUNT(id)"
+  # `log` is the compiler's alias for source_table, so this resolves to
+  # COUNT(DISTINCT tbljob.id) -- one row per job.
+  numerator_sql: "COUNT(DISTINCT log.id)"
+  temporal_column: "createdon"
+  required_partitions: ["accountid"]
+  recommended_visualizations: ["line", "bar"]
+
+job_volume:
+  business_meaning: "Total count of jobs."
+  source_table: "tbljob"
+  numerator: "COUNT(id)"
+  numerator_sql: "COUNT(DISTINCT log.id)"
+  required_partitions: ["accountid"]

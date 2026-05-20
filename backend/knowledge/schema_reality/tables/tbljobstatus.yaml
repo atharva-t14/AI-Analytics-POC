@@ -1,0 +1,22 @@
+table_name: tbljobstatus
+columns:
+- name: id
+  type: int
+  is_nullable: false
+  key: PRI
+  extra: auto_increment
+- name: label
+  type: varchar
+  is_nullable: true
+  key: ''
+  extra: ''
+- name: accountid
+  type: int
+  is_nullable: false
+  key: MUL
+  extra: ''
+- name: sequenceno
+  type: int
+  is_nullable: false
+  key: ''
+  extra: ''

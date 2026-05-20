@@ -1,0 +1,32 @@
+table_name: tblcandidatestatus
+columns:
+- name: id
+  type: int
+  is_nullable: false
+  key: PRI
+  extra: auto_increment
+- name: label
+  type: varchar
+  is_nullable: true
+  key: MUL
+  extra: ''
+- name: pagemode
+  type: varchar
+  is_nullable: true
+  key: ''
+  extra: ''
+- name: accountid
+  type: int
+  is_nullable: false
+  key: MUL
+  extra: ''
+- name: sequenceno
+  type: int
+  is_nullable: false
+  key: ''
+  extra: ''
+- name: sharedwithclient
+  type: tinyint
+  is_nullable: false
+  key: ''
+  extra: ''

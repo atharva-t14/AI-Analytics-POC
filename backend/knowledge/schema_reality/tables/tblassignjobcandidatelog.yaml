@@ -1,0 +1,22 @@
+table_name: tblassignjobcandidatelog
+columns:
+  - name: id
+    type: int
+  - name: candidateid
+    type: int
+  - name: jobid
+    type: int
+  - name: candidatestatusid
+    type: int
+  - name: stagedate
+    type: int
+  - name: createdon
+    type: int
+  - name: createdby
+    type: int
+  - name: accountid
+    type: int
+  - name: joiningdate
+    type: int
+  - name: billingdate
+    type: int

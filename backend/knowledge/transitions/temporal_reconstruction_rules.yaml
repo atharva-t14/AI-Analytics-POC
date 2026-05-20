@@ -1,0 +1,15 @@
+state_reconstruction:
+  latest_state:
+    method: "LAST_VALUE(candidatestatusid) OVER (PARTITION BY accountid, candidateid, jobid ORDER BY stagedate ASC, id ASC)"
+  
+  event_deduplication:
+    rule: "If multiple logs exist for same timestamp and same status, retain lowest ID as original entry."
+  
+  missing_timestamps:
+    handling: "Use createdon as fallback for stagedate if stagedate is 0 or NULL."
+  
+  replay_consistency:
+    rule: "Transitions are valid only if accountid matches between tblassignjobcandidatelog and tblcandidatestatus."
+
+  deleted_records:
+    rule: "Filter WHERE is_deleted = 0 to exclude history hidden from operational view."

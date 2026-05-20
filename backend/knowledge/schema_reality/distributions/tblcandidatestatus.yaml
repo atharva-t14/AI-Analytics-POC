@@ -1,0 +1,11 @@
+table: tblcandidatestatus
+distributions:
+- column: pagemode
+  total_distinct_in_sample: 3
+  top_values:
+  - value: user_mode
+    frequency: 260122
+  - value: contact_mode
+    frequency: 456
+  - value: '0'
+    frequency: 3

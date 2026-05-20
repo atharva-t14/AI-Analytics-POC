@@ -1,0 +1,60 @@
+benchmark_category: "pipeline_bottlenecks"
+queries:
+  - id: "bot_001"
+    query: "show jobs stuck in pipeline"
+    intent: "pipeline_aging"
+    domain: "pipeline_bottlenecks"
+    expected_events:
+      - "job_created"
+      - "candidate_stage_changed"
+    expected_dimensions:
+      - "job_name"
+    expected_metrics:
+      - "days_without_activity"
+    expected_filters:
+      - "is_active = true"
+    expected_chart: 
+      type: "table"
+    expected_sql_characteristics:
+      - "MAX(stagedate) calculation"
+      - "tenant isolation"
+    ambiguity_level: "high"
+    clarification_requirements: "What defines 'stuck'? e.g. > 14 days without a stage change?"
+
+  - id: "bot_002"
+    query: "which stage is taking the longest?"
+    intent: "stage_duration_leaderboard"
+    domain: "pipeline_bottlenecks"
+    expected_events:
+      - "candidate_stage_changed"
+    expected_dimensions:
+      - "stage_name"
+    expected_metrics:
+      - "time_in_stage_avg"
+    expected_filters: []
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "date diff calculation per stage"
+      - "tenant isolation"
+    ambiguity_level: "low"
+
+  - id: "bot_003"
+    query: "show pipeline aging"
+    intent: "pipeline_aging_summary"
+    domain: "pipeline_bottlenecks"
+    expected_events:
+      - "candidate_submitted_to_job"
+      - "candidate_stage_changed"
+    expected_dimensions:
+      - "aging_bucket" # e.g. 0-30 days, 30-60 days
+    expected_metrics:
+      - "candidate_count"
+    expected_filters:
+      - "is_active_in_pipeline = true"
+    expected_chart: 
+      type: "bar_chart"
+    expected_sql_characteristics:
+      - "CASE WHEN statements for bucketing"
+      - "tenant isolation"
+    ambiguity_level: "high"

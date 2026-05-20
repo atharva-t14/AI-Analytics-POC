@@ -1,0 +1,5 @@
+table: tblcandidatestatus
+foreign_keys:
+- column: accountid
+  references_table: tblaccount
+  references_column: id

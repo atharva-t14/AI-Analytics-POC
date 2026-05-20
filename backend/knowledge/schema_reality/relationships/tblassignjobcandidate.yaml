@@ -1,0 +1,17 @@
+table: tblassignjobcandidate
+foreign_keys:
+- column: accountid
+  references_table: tblaccount
+  references_column: id
+- column: candidateid
+  references_table: tblcandidate
+  references_column: id
+- column: candidatestatusid
+  references_table: tblcandidatestatus
+  references_column: id
+- column: jobid
+  references_table: tbljob
+  references_column: id
+- column: ownerid
+  references_table: tbluser
+  references_column: id

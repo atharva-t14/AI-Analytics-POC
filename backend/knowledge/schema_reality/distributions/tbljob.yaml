@@ -1,0 +1,544 @@
+table: tbljob
+distributions:
+- column: salarytype
+  total_distinct_in_sample: 5
+  top_values:
+  - value: annual
+    frequency: 20808
+  - value: monthly
+    frequency: 6559
+  - value: '3'
+    frequency: 3783
+  - value: '1'
+    frequency: 3753
+  - value: '4'
+    frequency: 3677
+  - value: '5'
+    frequency: 3653
+  - value: '2'
+    frequency: 3652
+  - value: hourly
+    frequency: 583
+  - value: weekly
+    frequency: 547
+  - value: daily
+    frequency: 469
+  - value: ''
+    frequency: 151
+  - value: Monthly Salary
+    frequency: 3
+  - value: Annual Salary
+    frequency: 2
+  - value: per hour
+    frequency: 1
+  - value: Hourly Salary
+    frequency: 1
+- column: migration_reserved1
+  total_distinct_in_sample: 1
+  top_values:
+  - value: '0'
+    frequency: 50715
+  - value: 17264723240261189662QvA
+    frequency: 499
+  - value: 17438666564447017891erX
+    frequency: 51
+  - value: 17438666564007017891QLt
+    frequency: 49
+  - value: 17743602709227052688UVo
+    frequency: 47
+  - value: 17438666564867017891Czg
+    frequency: 46
+  - value: 17438666563427017891aXN
+    frequency: 45
+  - value: 17743602709367052688NzA
+    frequency: 45
+  - value: 17438666564727017891COu
+    frequency: 45
+  - value: 17438666565017017891WBS
+    frequency: 44
+  - value: 17438666563717017891mOp
+    frequency: 43
+  - value: 17438666564297017891PEt
+    frequency: 43
+  - value: 17438666564157017891cgh
+    frequency: 43
+  - value: 17438666563577017891ToV
+    frequency: 40
+  - value: 17743602709077052688zBu
+    frequency: 39
+  - value: 17438666564587017891fJz
+    frequency: 38
+  - value: 17743602709507052688NBr
+    frequency: 36
+  - value: 17743602708927052688HCl
+    frequency: 33
+  - value: 17438666563867017891DJQ
+    frequency: 25
+  - value: 17390990194537017891slX
+    frequency: 19
+  - value: ''
+    frequency: 13
+  - value: '369'
+    frequency: 9
+  - value: '299'
+    frequency: 9
+  - value: '302'
+    frequency: 9
+  - value: '330'
+    frequency: 9
+  - value: '368'
+    frequency: 9
+  - value: '335'
+    frequency: 9
+  - value: '292'
+    frequency: 9
+  - value: '294'
+    frequency: 9
+  - value: '353'
+    frequency: 9
+  - value: '365'
+    frequency: 9
+  - value: '325'
+    frequency: 9
+  - value: '304'
+    frequency: 9
+  - value: '289'
+    frequency: 9
+  - value: '309'
+    frequency: 9
+  - value: '373'
+    frequency: 9
+  - value: '371'
+    frequency: 9
+  - value: '378'
+    frequency: 9
+  - value: '366'
+    frequency: 9
+  - value: '333'
+    frequency: 9
+  - value: '305'
+    frequency: 9
+  - value: '301'
+    frequency: 9
+  - value: '342'
+    frequency: 9
+  - value: '395'
+    frequency: 9
+  - value: '387'
+    frequency: 9
+  - value: '338'
+    frequency: 9
+  - value: '281'
+    frequency: 9
+  - value: '379'
+    frequency: 9
+  - value: '351'
+    frequency: 9
+  - value: '343'
+    frequency: 9
+- column: migration_reserved2
+  total_distinct_in_sample: 1
+  top_values:
+  - value: '0'
+    frequency: 52074
+  - value: ''
+    frequency: 4138
+  - value: 177784643836601210ent
+    frequency: 1040
+  - value: 177784643836601215jsy
+    frequency: 1003
+  - value: 175654292233333333dmv
+    frequency: 631
+  - value: 177784643837718482gpv
+    frequency: 480
+  - value: 17775155780000522cHm
+    frequency: 390
+  - value: 177784643837723287bky
+    frequency: 381
+  - value: 177784643836601218clu
+    frequency: 349
+  - value: 17419253646030000004ffc
+    frequency: 313
+  - value: 177784643836601219dmv
+    frequency: 309
+  - value: 177784643837037369dmw
+    frequency: 259
+  - value: 177784643837009282gpt
+    frequency: 258
+  - value: 17772049066737808096fos
+    frequency: 241
+  - value: 16940319122128828hMr
+    frequency: 240
+  - value: 151028626731313182bku
+    frequency: 237
+  - value: 16940319122129283bGl
+    frequency: 236
+  - value: 16940319122129118hMr
+    frequency: 228
+  - value: 177784643837718480ent
+    frequency: 213
+  - value: 16940319122128616bGl
+    frequency: 211
+  - value: 17781104209733381216lmn
+    frequency: 208
+  - value: 156990075231313210jsu
+    frequency: 197
+  - value: 17781104209733343080STU
+    frequency: 197
+  - value: 148936665431313136fox
+    frequency: 197
+  - value: 17780111579190046241Cmc
+    frequency: 194
+  - value: 148650521131313134dmv
+    frequency: 191
+  - value: 17772049066737808104dmt
+    frequency: 186
+  - value: 177784643836601212gpv
+    frequency: 180
+  - value: 16940319122126243iNs
+    frequency: 169
+  - value: 177784643837757305jsw
+    frequency: 163
+  - value: 177784643836666590ent
+    frequency: 159
+  - value: 177784643837222710eny
+    frequency: 157
+  - value: 177784643836601217bkt
+    frequency: 143
+  - value: 17772049066737808147gpu
+    frequency: 138
+  - value: 17775155780005360aFk
+    frequency: 138
+  - value: 17772049066737808377gpt
+    frequency: 135
+  - value: 17775155780006030aFk
+    frequency: 127
+  - value: 17781104209733354891fgh
+    frequency: 124
+  - value: 16940319122126330gLq
+    frequency: 123
+  - value: 17772049066737808093clw
+    frequency: 117
+  - value: 17781104209733403188VWX
+    frequency: 116
+  - value: 177322533121213460jsu
+    frequency: 116
+  - value: 17772049066737808065enw
+    frequency: 116
+  - value: 17781104209733340896VWX
+    frequency: 115
+  - value: 16940319122128383eJo
+    frequency: 115
+  - value: 177322533121213278hqu
+    frequency: 113
+  - value: 17781104209733374013GHI
+    frequency: 110
+  - value: 17775155780000620aFk
+    frequency: 109
+  - value: 17775155780003792cHm
+    frequency: 108
+  - value: 17775155780006254eJo
+    frequency: 106
+- column: job_type
+  total_distinct_in_sample: 4
+  top_values:
+  - value: fulltime
+    frequency: 39069
+  - value: contracttopermanent
+    frequency: 8515
+  - value: contract
+    frequency: 7495
+  - value: parttime
+    frequency: 5453
+  - value: ''
+    frequency: 3461
+  - value: Permanent
+    frequency: 786
+  - value: Fixed Term Contract
+    frequency: 150
+  - value: Interim Inside35
+    frequency: 134
+  - value: Interim Outside 35
+    frequency: 41
+  - value: Part Time
+    frequency: 4
+- column: remote
+  total_distinct_in_sample: 1
+  top_values:
+  - value: '0'
+    frequency: 50565
+  - value: '1'
+    frequency: 15819
+  - value: '2'
+    frequency: 6904
+  - value: ''
+    frequency: 2326
+  - value: '1.'
+    frequency: 19
+- column: postalcode
+  total_distinct_in_sample: 14
+  top_values:
+  - value: '123456'
+    frequency: 7346
+  - value: ''
+    frequency: 875
+  - value: '110055'
+    frequency: 663
+  - value: 02139
+    frequency: 629
+  - value: '94080'
+    frequency: 392
+  - value: '02142'
+    frequency: 385
+  - value: '60654'
+    frequency: 287
+  - value: '92121'
+    frequency: 285
+  - value: '02451'
+    frequency: 279
+  - value: 02138
+    frequency: 259
+  - value: '122022'
+    frequency: 234
+  - value: '60015'
+    frequency: 179
+  - value: W2 1NW
+    frequency: 171
+  - value: '60642'
+    frequency: 154
+  - value: '19104'
+    frequency: 153
+  - value: 02108
+    frequency: 150
+  - value: '60007'
+    frequency: 150
+  - value: '02472'
+    frequency: 149
+  - value: '60606'
+    frequency: 148
+  - value: '02140'
+    frequency: 144
+  - value: SW18 4NX
+    frequency: 135
+  - value: '27703'
+    frequency: 131
+  - value: V3M 6P7
+    frequency: 126
+  - value: 06877
+    frequency: 123
+  - value: '02116'
+    frequency: 122
+  - value: '02210'
+    frequency: 121
+  - value: 08540
+    frequency: 121
+  - value: '60601'
+    frequency: 120
+  - value: '10001'
+    frequency: 120
+  - value: '94111'
+    frequency: 119
+  - value: '46285'
+    frequency: 119
+  - value: 08889
+    frequency: 117
+  - value: V4M 4M8
+    frequency: 108
+  - value: N1K1H8
+    frequency: 108
+  - value: '10018'
+    frequency: 108
+  - value: L6T3Y3
+    frequency: 105
+  - value: L9R 1V2
+    frequency: 102
+  - value: '07054'
+    frequency: 97
+  - value: '94102'
+    frequency: 96
+  - value: NW1 7HW
+    frequency: 96
+  - value: L7P 5C1
+    frequency: 93
+  - value: '01730'
+    frequency: 88
+  - value: J3Z 1G5
+    frequency: 88
+  - value: '27713'
+    frequency: 86
+  - value: '19355'
+    frequency: 85
+  - value: '07033'
+    frequency: 84
+  - value: '19406'
+    frequency: 84
+  - value: '75001'
+    frequency: 82
+  - value: '10013'
+    frequency: 82
+  - value: '94025'
+    frequency: 81
+- column: job_function
+  total_distinct_in_sample: 16
+  top_values:
+  - value: ''
+    frequency: 111674
+  - value: Administrative
+    frequency: 1835
+  - value: Engineering
+    frequency: 1796
+  - value: Finance
+    frequency: 1672
+  - value: Accounting and Finance
+    frequency: 1603
+  - value: Consultancy
+    frequency: 1576
+  - value: Insurance and Finance
+    frequency: 1571
+  - value: Personal Services
+    frequency: 1567
+  - value: Education and Training
+    frequency: 1555
+  - value: Agriculture, Livestock and Fishing
+    frequency: 1516
+  - value: Human Resources
+    frequency: 1513
+  - value: Cleaning and Maintenance
+    frequency: 1507
+  - value: Hospitality
+    frequency: 1480
+  - value: Management
+    frequency: 289
+  - value: Sales and Business Development
+    frequency: 213
+  - value: Information and Communication Technology
+    frequency: 76
+  - value: Analytics
+    frequency: 76
+  - value: Communication, Marketing and Public Relations
+    frequency: 74
+  - value: Customer Success
+    frequency: 68
+  - value: Technology
+    frequency: 16
+  - value: Installation, Repair and Maintenance
+    frequency: 16
+  - value: Transportation, Fleet and Delivery
+    frequency: 13
+  - value: Unskilled Hourly
+    frequency: 11
+  - value: Customer/Client Service and Support
+    frequency: 7
+  - value: Procurement
+    frequency: 7
+  - value: Legal, Human Resources and Social Services
+    frequency: 5
+  - value: Production
+    frequency: 3
+  - value: Construction and Skilled Trades
+    frequency: 2
+  - value: Property
+    frequency: 2
+- column: job_industry
+  total_distinct_in_sample: 26
+  top_values:
+  - value: ''
+    frequency: 111675
+  - value: Information Technology
+    frequency: 1075
+  - value: Banking
+    frequency: 888
+  - value: Insurance
+    frequency: 881
+  - value: Health and Safety
+    frequency: 869
+  - value: Automotive
+    frequency: 868
+  - value: Building and Construction
+    frequency: 867
+  - value: Accounting
+    frequency: 865
+  - value: Finance
+    frequency: 859
+  - value: Government and Public Sector
+    frequency: 857
+  - value: Advertising
+    frequency: 852
+  - value: Agriculture
+    frequency: 845
+  - value: Communications
+    frequency: 845
+  - value: Manufacturing
+    frequency: 844
+  - value: Food
+    frequency: 844
+  - value: Logistics & Supply Chain
+    frequency: 836
+  - value: E-commerce
+    frequency: 834
+  - value: Academic
+    frequency: 833
+  - value: Arts & Culture
+    frequency: 832
+  - value: Pharmaceuticals
+    frequency: 804
+  - value: Education
+    frequency: 800
+  - value: Facility Management
+    frequency: 798
+  - value: Engineering
+    frequency: 777
+  - value: "Finance\r"
+    frequency: 127
+  - value: "Engineering\r"
+    frequency: 123
+  - value: "Manufacturing\r"
+    frequency: 104
+  - value: "E-commerce\r"
+    frequency: 102
+  - value: "Generic\r"
+    frequency: 86
+  - value: "Hospitality\r"
+    frequency: 84
+  - value: "Information Technology\r"
+    frequency: 69
+  - value: Consulting
+    frequency: 68
+  - value: IT
+    frequency: 67
+  - value: SaaS
+    frequency: 65
+  - value: "Property and Housing\r"
+    frequency: 60
+  - value: "Communications\r"
+    frequency: 40
+  - value: "Energy\r"
+    frequency: 38
+  - value: "Logistics & Supply Chain\r"
+    frequency: 33
+  - value: "Aviation\r"
+    frequency: 33
+  - value: "Defence & Military\r"
+    frequency: 33
+  - value: "Building and Construction\r"
+    frequency: 25
+  - value: "Agriculture\r"
+    frequency: 20
+  - value: "Pharmaceuticals\r"
+    frequency: 20
+  - value: "Arts & Culture\r"
+    frequency: 17
+  - value: "Education\r"
+    frequency: 16
+  - value: "Health and Safety\r"
+    frequency: 15
+  - value: "Automotive\r"
+    frequency: 14
+  - value: "Legal\r"
+    frequency: 7
+  - value: "Fast Moving Consumer Goods\r"
+    frequency: 5
+  - value: "Banking\r"
+    frequency: 5
+  - value: Aviation
+    frequency: 3

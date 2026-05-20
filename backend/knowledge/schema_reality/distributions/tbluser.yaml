@@ -1,0 +1,234 @@
+table: tbluser
+distributions:
+- column: username
+  total_distinct_in_sample: 26
+  top_values:
+  - value: testnew133@yopmail.com
+    frequency: 1
+  - value: nri@yopmail.com
+    frequency: 1
+  - value: releasetestingincident@yopmail.com
+    frequency: 1
+  - value: placementandinvoicin123gg1236@yopma
+    frequency: 1
+  - value: placementandinvoicehgfd@yopmail.com
+    frequency: 1
+  - value: satishssasssa@yopmail.com
+    frequency: 1
+  - value: manishstaginig44466@yopmail.com
+    frequency: 1
+  - value: bpiaud@yopmail.com
+    frequency: 1
+  - value: grazuroilleuppu-9513@yopmail.com
+    frequency: 1
+  - value: testeurope@yopmail.com
+    frequency: 1
+  - value: akshathamc2@gmail.com
+    frequency: 1
+  - value: testneo3333@yopmail.com
+    frequency: 1
+  - value: neomr37884211@yopmail.com
+    frequency: 1
+  - value: sa
+    frequency: 1
+  - value: syamalakarinki@gmail.com
+    frequency: 1
+  - value: gayatrikarri03@gamil.com
+    frequency: 1
+  - value: likhithabala8@email.com
+    frequency: 1
+  - value: amankhokher2003@gmail.com
+    frequency: 1
+  - value: SINGHHARSHRAJ9717@GMAIL.COM
+    frequency: 1
+  - value: sannasharmaa10@gmail.com
+    frequency: 1
+  - value: neomeindian2@yopmail.com
+    frequency: 1
+  - value: ukunipile@yopmail.com
+    frequency: 1
+  - value: devteststripnew@yopmail.com
+    frequency: 1
+  - value: release56@yopmail.com
+    frequency: 1
+  - value: satishneo@yopmail.com
+    frequency: 1
+  - value: dosaziwysy@yopmail.com
+    frequency: 1
+- column: oauthuid
+  total_distinct_in_sample: 2
+  top_values:
+  - value: ''
+    frequency: 16
+  - value: IZDv7WNjam
+    frequency: 1
+  - value: xqeZ9ET5mD
+    frequency: 1
+- column: country
+  total_distinct_in_sample: 30
+  top_values:
+  - value: United States
+    frequency: 77928
+  - value: India
+    frequency: 9609
+  - value: US
+    frequency: 224
+  - value: ''
+    frequency: 98
+  - value: Greece
+    frequency: 69
+  - value: Ireland
+    frequency: 51
+  - value: United Arab Emirates
+    frequency: 46
+  - value: United Kingdom
+    frequency: 27
+  - value: France
+    frequency: 21
+  - value: Singapore
+    frequency: 20
+  - value: Nepal
+    frequency: 20
+  - value: Canada
+    frequency: 19
+  - value: Germany
+    frequency: 19
+  - value: Australia
+    frequency: 13
+  - value: Japan
+    frequency: 11
+  - value: Mexico
+    frequency: 8
+  - value: Brazil
+    frequency: 6
+  - value: Poland
+    frequency: 6
+  - value: Russia
+    frequency: 5
+  - value: Netherlands
+    frequency: 4
+  - value: Cyprus
+    frequency: 4
+  - value: Morocco
+    frequency: 4
+  - value: United states of america
+    frequency: 4
+  - value: South Africa
+    frequency: 4
+  - value: Austria
+    frequency: 3
+  - value: USA
+    frequency: 3
+  - value: Ukraine
+    frequency: 3
+  - value: Sweden
+    frequency: 2
+  - value: Philippines
+    frequency: 2
+  - value: Indiaa
+    frequency: 2
+  - value: India1
+    frequency: 2
+  - value: United State
+    frequency: 1
+  - value: Indiaananaa
+    frequency: 1
+  - value: Pakistan
+    frequency: 1
+  - value: Argentina
+    frequency: 1
+  - value: Indasffasfia
+    frequency: 1
+  - value: Hungary
+    frequency: 1
+  - value: Italy
+    frequency: 1
+  - value: United State Of America IMov
+    frequency: 1
+  - value: United Kingdom48
+    frequency: 1
+  - value: India123
+    frequency: 1
+  - value: IND
+    frequency: 1
+  - value: India-00
+    frequency: 1
+  - value: Israel
+    frequency: 1
+  - value: Saudi Arabia
+    frequency: 1
+  - value: Romania
+    frequency: 1
+  - value: India'
+    frequency: 1
+  - value: UAE
+    frequency: 1
+  - value: The Land Of Wonders
+    frequency: 1
+  - value: India xEgp EvBp
+    frequency: 1
+- column: locale
+  total_distinct_in_sample: 5
+  top_values:
+  - value: en
+    frequency: 88201
+  - value: de
+    frequency: 36
+  - value: fr
+    frequency: 11
+  - value: es
+    frequency: 6
+  - value: nl
+    frequency: 4
+  - value: ja
+    frequency: 3
+  - value: pt
+    frequency: 2
+  - value: zh_CN
+    frequency: 2
+  - value: fi
+    frequency: 1
+- column: reactivate_code
+  total_distinct_in_sample: 13
+  top_values:
+  - value: 16989066026540007720ULw
+    frequency: 1
+  - value: 17002237231260029910Hbp
+    frequency: 1
+  - value: 16934782654660598412gMz
+    frequency: 1
+  - value: 17177611029560029910wiM
+    frequency: 1
+  - value: 17029725778890403895hpX
+    frequency: 1
+  - value: 17061604599300037758fMx
+    frequency: 1
+  - value: 17061606120301537574wYF
+    frequency: 1
+  - value: 17061642216631537574vwS
+    frequency: 1
+  - value: 17079026718701718433WaD
+    frequency: 1
+  - value: 17313376751150155353eUK
+    frequency: 1
+  - value: 17262212883725379772dHz
+    frequency: 1
+  - value: 17568352949050885177ERy
+    frequency: 1
+  - value: 177875298936018643342zQV
+    frequency: 1
+- column: chrome_extension_order
+  total_distinct_in_sample: 3
+  top_values:
+  - value: '"[{\"id\":1,\"name\":\"Profile Information\"},{\"id\":2,\"name\":\"Additional
+      Details \/ Notes\"},{\"id\":3,\"name\":\"Work Experience\"},{\"id\":4,\"name\":\"Education
+      Information\"}]"'
+    frequency: 1
+  - value: '"[{\"id\":2,\"name\":\"Additional Details \/ Notes\"},{\"id\":1,\"name\":\"Profile
+      Information\"},{\"id\":3,\"name\":\"Work Experience\"},{\"id\":4,\"name\":\"Education
+      Information\"}]"'
+    frequency: 1
+  - value: '"[{\"id\":1,\"name\":\"Profile Information\"},{\"id\":4,\"name\":\"Education
+      Information\"},{\"id\":2,\"name\":\"Additional Details \/ Notes\"},{\"id\":3,\"name\":\"Work
+      Experience\"}]"'
+    frequency: 1

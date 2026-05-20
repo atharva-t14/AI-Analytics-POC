@@ -1,0 +1,12 @@
+table: tblassignjobcandidate
+temporal_columns:
+- column: createdon
+  type: int
+  inferred_behavior: unix_timestamp
+  min_observed: 1548875857
+  max_observed: 1728025295
+- column: updatedon
+  type: int
+  inferred_behavior: unix_timestamp
+  min_observed: 1548875857
+  max_observed: 1767864025

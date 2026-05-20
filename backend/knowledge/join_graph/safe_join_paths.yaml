@@ -1,0 +1,138 @@
+safe_paths:
+  - path_name: "funnel_to_candidate_to_status"
+    starting_table: "tblassignjobcandidatelog"
+    ending_table: "tblcandidatestatus"
+    intermediate_tables: ["tblcandidate"]
+    join_sequence:
+      - left: "tblassignjobcandidatelog.candidateid"
+        right: "tblcandidate.id"
+      - left: "tblassignjobcandidatelog.candidatestatusid"
+        right: "tblcandidatestatus.id"
+    tenant_boundary_propagation: 
+      - "tblassignjobcandidatelog.accountid = {{tenant_id}}"
+      - "tblcandidate.accountid = tblassignjobcandidatelog.accountid"
+      - "tblcandidatestatus.accountid = tblassignjobcandidatelog.accountid"
+    path_confidence: "high"
+    operational_meaning: "Resolves candidate pipeline stage names and order for specific log events."
+    analytics_use_cases: ["funnel conversion", "stage aging", "pipeline bottlenecks"]
+
+  - path_name: "funnel_to_job_to_user"
+    starting_table: "tblassignjobcandidatelog"
+    ending_table: "tbluser"
+    intermediate_tables: ["tbljob"]
+    join_sequence:
+      - left: "tblassignjobcandidatelog.jobid"
+        right: "tbljob.id"
+      - left: "tbljob.ownerid"
+        right: "tbluser.id"
+    tenant_boundary_propagation: 
+      - "tblassignjobcandidatelog.accountid = {{tenant_id}}"
+      - "tbljob.accountid = tblassignjobcandidatelog.accountid"
+      - "tbluser.accountid = tbljob.accountid"
+    path_confidence: "high"
+    operational_meaning: "Links a funnel event to the owner of the job being worked on."
+    analytics_use_cases: ["job owner productivity", "job bottlenecks by recruiter"]
+
+  - path_name: "funnel_to_log_actor"
+    starting_table: "tblassignjobcandidatelog"
+    ending_table: "tbluser"
+    intermediate_tables: []
+    join_sequence:
+      - left: "tblassignjobcandidatelog.createdby"
+        right: "tbluser.id"
+    tenant_boundary_propagation: 
+      - "tblassignjobcandidatelog.accountid = {{tenant_id}}"
+      - "tbluser.accountid = tblassignjobcandidatelog.accountid"
+    path_confidence: "high"
+    operational_meaning: "Identifies which recruiter actually moved the candidate in the funnel."
+    analytics_use_cases: ["recruiter leaderboard", "recruiter activity metrics"]
+
+  - path_name: "deal_to_owner"
+    starting_table: "tbldeals"
+    ending_table: "tbluser"
+    intermediate_tables: []
+    join_sequence:
+      - left: "tbldeals.ownerid"
+        right: "tbluser.id"
+    tenant_boundary_propagation: 
+      - "tbldeals.accountid = {{tenant_id}}"
+      - "tbluser.accountid = tbldeals.accountid"
+    path_confidence: "high"
+    operational_meaning: "Links a deal to the recruiter who owns it."
+    analytics_use_cases: ["revenue by recruiter", "deal leadership"]
+
+  - path_name: "deal_history_to_deal_to_owner"
+    starting_table: "deal_stage_history_t"
+    ending_table: "tbluser"
+    intermediate_tables: ["tbldeals"]
+    join_sequence:
+      - left: "deal_stage_history_t.deal_id"
+        right: "tbldeals.id"
+      - left: "tbldeals.ownerid"
+        right: "tbluser.id"
+    tenant_boundary_propagation: 
+      - "deal_stage_history_t.account_id = {{tenant_id}}"
+      - "tbldeals.accountid = deal_stage_history_t.account_id"
+      - "tbluser.accountid = tbldeals.accountid"
+    path_confidence: "high"
+    operational_meaning: "Resolves historical deal transitions to the deal owner."
+    analytics_use_cases: ["deal velocity by recruiter", "pipeline aging by recruiter"]
+
+  - path_name: "placement_resolution"
+    starting_table: "tblassignjobcandidatelog"
+    ending_table: "tbljob"
+    intermediate_tables: ["tblcandidate"]
+    join_sequence:
+      - left: "tblassignjobcandidatelog.candidateid"
+        right: "tblcandidate.id"
+      - left: "tblassignjobcandidatelog.jobid"
+        right: "tbljob.id"
+    tenant_boundary_propagation: 
+      - "tblassignjobcandidatelog.accountid = {{tenant_id}}"
+      - "tblcandidate.accountid = tblassignjobcandidatelog.accountid"
+      - "tbljob.accountid = tblassignjobcandidatelog.accountid"
+    path_confidence: "high"
+    operational_meaning: "Resolves the complete context (job and candidate) for a specific assignment event."
+    analytics_use_cases: ["placement analytics", "source effectiveness for jobs", "time-to-hire by job"]
+
+  - path_name: "assignment_to_status"
+    starting_table: "tblassignjobcandidate"
+    ending_table: "tblcandidatestatus"
+    intermediate_tables: []
+    join_sequence:
+      - left: "tblassignjobcandidate.candidatestatusid"
+        right: "tblcandidatestatus.id"
+    tenant_boundary_propagation:
+      - "tblassignjobcandidate.accountid = {{tenant_id}}"
+      - "tblcandidatestatus.accountid = tblassignjobcandidate.accountid"
+    path_confidence: "high"
+    operational_meaning: "Resolves the current status stage of assigned candidates."
+    analytics_use_cases: ["current stage breakdown"]
+
+  - path_name: "assignment_to_job"
+    starting_table: "tblassignjobcandidate"
+    ending_table: "tbljob"
+    intermediate_tables: []
+    join_sequence:
+      - left: "tblassignjobcandidate.jobid"
+        right: "tbljob.id"
+    tenant_boundary_propagation:
+      - "tblassignjobcandidate.accountid = {{tenant_id}}"
+      - "tbljob.accountid = tblassignjobcandidate.accountid"
+    path_confidence: "high"
+    operational_meaning: "Links a candidate assignment to the job details."
+    analytics_use_cases: ["assignment filter by job"]
+
+  - path_name: "assignment_to_candidate"
+    starting_table: "tblassignjobcandidate"
+    ending_table: "tblcandidate"
+    intermediate_tables: []
+    join_sequence:
+      - left: "tblassignjobcandidate.candidateid"
+        right: "tblcandidate.id"
+    tenant_boundary_propagation:
+      - "tblassignjobcandidate.accountid = {{tenant_id}}"
+      - "tblcandidate.accountid = tblassignjobcandidate.accountid"
+    path_confidence: "high"
+    operational_meaning: "Links candidate assignments directly to candidate personal details."
+    analytics_use_cases: ["candidate details list"]

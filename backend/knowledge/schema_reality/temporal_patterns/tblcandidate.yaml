@@ -1,0 +1,12 @@
+table: tblcandidate
+temporal_columns:
+- column: createdon
+  type: int
+  inferred_behavior: unix_timestamp
+  min_observed: 1555325193
+  max_observed: 1778757385
+- column: updatedon
+  type: int
+  inferred_behavior: unix_timestamp
+  min_observed: 1554966197
+  max_observed: 1776864001

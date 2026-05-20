@@ -1,0 +1,20 @@
+edge_case_handling:
+  skipped_stages:
+    logic: "Infer completion of intermediate stages if current_sequenceno > last_sequenceno + 1"
+    handling: "Do not synthesize fake logs; count conversion based on threshold reach."
+
+  candidate_reentry:
+    logic: "Multiple cycles for same candidate + job"
+    handling: "Distinguished by gap in stagedate or specific status indicating 'Re-applied'."
+
+  reopened_jobs:
+    logic: "New activity on job after long dormancy or 'Closed' status"
+    handling: "Treat as continuous lifecycle unless accountid/jobid sequence is reset."
+
+  stage_regressions:
+    logic: "Candidate moves from Interview back to Screening"
+    handling: "Record as backward_progression; calculations must use MIN/MAX windows to avoid double-counting in simple funnels."
+
+  duplicate_logs:
+    logic: "Integration or UI errors resulting in identical sequential logs"
+    handling: "Partition by all fields and rank; select rank 1."

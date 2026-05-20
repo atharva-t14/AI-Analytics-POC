@@ -1,0 +1,21 @@
+lifecycle_identity:
+  entity: "candidate_assignment"
+  composite_key: ["accountid", "candidateid", "jobid"]
+  description: "A candidate's journey is unique per job and per account boundary."
+
+ordering_logic:
+  primary_sort: "stagedate"
+  secondary_sort: "id" # Using primary key for deterministic tie-breaking of simultaneous events
+  direction: "ASC"
+
+progression_source:
+  table: "tblassignjobcandidatelog"
+  stage_reference:
+    table: "tblcandidatestatus"
+    join_key: "candidatestatusid"
+    order_key: "sequenceno"
+
+replay_rules:
+  partition_by: ["accountid", "candidateid", "jobid"]
+  window_logic: "ORDER BY stagedate ASC, id ASC"
+  state_persistence: "The latest event in the window defines the Current State."

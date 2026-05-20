@@ -1,0 +1,24 @@
+metric_dependencies:
+  - metric: "stage_conversion_rate"
+    requires: ["candidate_transition_model", "stage_sequence_ordering"]
+    dependency_type: "replay_timeline"
+
+  - metric: "time_to_hire"
+    requires: ["candidate_created_event", "placement_event", "replay_timeline"]
+    dependency_type: "replay_timeline"
+
+  - metric: "stage_dwell_time"
+    requires: ["ordered_stage_transitions"]
+    dependency_type: "stage_transitions"
+
+  - metric: "recruiter_pipeline_load"
+    requires: ["latest_state_reconstruction"]
+    dependency_type: "reconstructed_latest_state"
+
+  - metric: "recruiter_submission_rate"
+    requires: ["historical_event_aggregation"]
+    dependency_type: "historical_aggregation"
+
+  - metric: "bottleneck_stage_detection"
+    requires: ["stage_dwell_time", "statistical_aggregates"]
+    dependency_type: "nested_metric"
