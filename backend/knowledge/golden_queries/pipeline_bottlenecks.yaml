@@ -58,3 +58,21 @@ queries:
       - "CASE WHEN statements for bucketing"
       - "tenant isolation"
     ambiguity_level: "high"
+
+  - id: "bot_004"
+    query: "Show jobs that have been open for more than 30 days"
+    intent: "open_jobs_list"
+    domain: "pipeline_bottlenecks"
+    expected_events:
+      - "job_created"
+    expected_dimensions: []
+    expected_metrics:
+      - "open_jobs_list"
+    expected_filters:
+      - "days_open > 30"
+    expected_chart: 
+      type: "table"
+    expected_sql_characteristics:
+      - "ROUND((UNIX_TIMESTAMP() - j.createdon) / 86400) calculation"
+      - "tenant isolation"
+    ambiguity_level: "low"

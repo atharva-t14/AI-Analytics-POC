@@ -23,7 +23,7 @@ from typing import Any, Dict, Iterable, List, Optional, Tuple
 import yaml
 from sqlglot import exp, parse_one
 
-from app.dsl import AnalyticsDSL
+from app.dsl import AnalyticsDSL, DSLValidationError
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +43,7 @@ TABLE_ALIASES: Dict[str, str] = {
     "tblcandidatestatus": "cs",
     "tbluser": "u",
     "tbldeals": "d",
+    "tbljobstatus": "js",
 }
 
 # Tables that use soft-delete (is_deleted column) instead of hard-delete.
@@ -53,7 +54,7 @@ DELETED_FLAG_TABLES: set = {"tbljob"}
 
 # Lookup/dimension tables where tenant propagation in the JOIN ON clause is
 # unnecessary — they are already scoped via FK from a tenant-filtered base row.
-SKIP_TENANT_JOIN_TABLES: set = {"tblcandidatestatus"}
+SKIP_TENANT_JOIN_TABLES: set = {"tblcandidatestatus", "tbljobstatus"}
 
 
 @dataclass
@@ -113,6 +114,12 @@ FILTER_JOINS: Dict[str, FilterJoin] = {
     "status": FilterJoin(table="tblcandidatestatus", alias="cs", base_col="candidatestatusid", join_col="id", target_col="label"),
     "recruiter": FilterJoin(table="tbluser", alias="u", base_col="createdby", join_col="id", target_col="firstname"),
     "firstname": FilterJoin(table="tbluser", alias="u", base_col="createdby", join_col="id", target_col="firstname"),
+    "city": FilterJoin(table="tbljob", alias="j", base_col="jobid", join_col="id", target_col="city"),
+    "country": FilterJoin(table="tbljob", alias="j", base_col="jobid", join_col="id", target_col="country"),
+    "archived": FilterJoin(table="tbljob", alias="j", base_col="jobid", join_col="id", target_col="archived"),
+    "job_type": FilterJoin(table="tbljob", alias="j", base_col="jobid", join_col="id", target_col="job_type"),
+    "job_category": FilterJoin(table="tbljob", alias="j", base_col="jobid", join_col="id", target_col="job_category"),
+    "deleted": FilterJoin(table="tbljob", alias="j", base_col="jobid", join_col="id", target_col="deleted"),
 }
 
 
@@ -134,7 +141,12 @@ class DeterministicCompiler:
     # ------------------------------------------------------------------ #
     # Public API
     # ------------------------------------------------------------------ #
-    def compile(self, dsl: AnalyticsDSL) -> CompiledQuery:
+    def compile(self, dsl: AnalyticsDSL, request_id: Optional[str] = None) -> CompiledQuery:
+        logger.info(
+            "[COMPILER] Step 2 started: compile AnalyticsDSL to SQL | request_id=%s | dsl=%s",
+            request_id,
+            dsl.model_dump(),
+        )
         if not dsl.metrics:
             raise ValueError("DSL must reference at least one metric")
 
@@ -142,11 +154,26 @@ class DeterministicCompiler:
         metric_def = self._find_metric_definition(metric_id)
         if not metric_def:
             raise ValueError(f"Unknown metric: {metric_id}")
+        logger.info(
+            "[COMPILER] Step 2.1 Metric definition loaded | request_id=%s | metric=%s | source_table=%s | has_numerator_sql=%s | business_meaning=%r",
+            request_id,
+            metric_id,
+            metric_def.get("source_table", DEFAULT_BASE_TABLE),
+            bool(metric_def.get("numerator_sql")),
+            metric_def.get("business_meaning"),
+        )
 
         if metric_id == "candidate_list":
             base_table = "tblassignjobcandidate"
             base_alias = "ajc"
             params: dict = {"account_id": dsl.account_id}
+            logger.info(
+                "[COMPILER] Step 2.2 Special table flow selected | request_id=%s | metric=%s | base_table=%s | base_alias=%s",
+                request_id,
+                metric_id,
+                base_table,
+                base_alias,
+            )
             
             # Custom candidate details list query columns
             select_exprs = [
@@ -168,6 +195,12 @@ class DeterministicCompiler:
             # Whitelisted Joins
             # 1. tblcandidate AS c
             self._assert_safe_join(base_table, "tblcandidate")
+            logger.info(
+                "[COMPILER] Step 2.3 Join approved and added | request_id=%s | left=%s | right=%s | reason=candidate details",
+                request_id,
+                base_table,
+                "tblcandidate",
+            )
             query = query.join(
                 expression=exp.Table(this=exp.to_identifier("tblcandidate"), alias=exp.to_identifier("c")),
                 on=exp.and_(
@@ -179,6 +212,12 @@ class DeterministicCompiler:
             
             # 2. tbljob AS j
             self._assert_safe_join(base_table, "tbljob")
+            logger.info(
+                "[COMPILER] Step 2.4 Join approved and added | request_id=%s | left=%s | right=%s | reason=job details",
+                request_id,
+                base_table,
+                "tbljob",
+            )
             query = query.join(
                 expression=exp.Table(this=exp.to_identifier("tbljob"), alias=exp.to_identifier("j")),
                 on=exp.and_(
@@ -192,6 +231,12 @@ class DeterministicCompiler:
             
             # 3. tblcandidatestatus AS cs
             self._assert_safe_join(base_table, "tblcandidatestatus")
+            logger.info(
+                "[COMPILER] Step 2.5 Join approved and added | request_id=%s | left=%s | right=%s | reason=status label",
+                request_id,
+                base_table,
+                "tblcandidatestatus",
+            )
             query = query.join(
                 expression=exp.Table(this=exp.to_identifier("tblcandidatestatus"), alias=exp.to_identifier("cs")),
                 on=exp.column("candidatestatusid", base_alias).eq(exp.column("id", "cs")),
@@ -210,8 +255,19 @@ class DeterministicCompiler:
                 pname = f"f_{i}"
                 params[pname] = f.value
                 col_name, alias, _ = self._resolve_filter_target(f.field, base_table, base_alias)
+                col_expr = exp.column(col_name, alias)
+                logger.info(
+                    "[COMPILER] Step 2.6 Filter compiled | request_id=%s | field=%s | operator=%s | value=%r | target=%s.%s | param=%s",
+                    request_id,
+                    f.field,
+                    f.operator,
+                    f.value,
+                    alias,
+                    col_name,
+                    pname,
+                )
                 conditions.append(
-                    exp.column(col_name, alias).eq(exp.Placeholder(this=pname))
+                    self._compile_filter_condition(col_expr, f.operator, exp.Placeholder(this=pname))
                 )
                 
             query = query.where(exp.and_(*conditions))
@@ -224,12 +280,126 @@ class DeterministicCompiler:
             
             # Safety checks & return
             sql = query.sql(dialect=DIALECT)
-            self._validate_ast(query, base_table)
+            self._validate_ast(query, base_table, request_id=request_id)
             
-            logger.info("--- SQL GENERATION START (CANDIDATE LIST) ---")
-            logger.info("SQL: %s", sql)
-            logger.info("Parameters: %s", params)
-            logger.info("--- SQL GENERATION END ---")
+            logger.info(
+                "[COMPILER] Step 2 completed: candidate list SQL generated | request_id=%s | sql=%s | params=%s",
+                request_id,
+                sql,
+                params,
+            )
+            
+            return CompiledQuery(
+                sql=sql,
+                params=params,
+                visualization_type="table",
+                intent_family=dsl.intent_family,
+            )
+
+        elif metric_id == "open_jobs_list":
+            base_table = "tbljob"
+            base_alias = "j"
+            params: dict = {"account_id": dsl.account_id}
+            logger.info(
+                "[COMPILER] Step 2.2 Special table flow selected | request_id=%s | metric=%s | base_table=%s | base_alias=%s",
+                request_id,
+                metric_id,
+                base_table,
+                base_alias,
+            )
+            
+            # Custom open jobs list query columns
+            select_exprs = [
+                exp.column("id", "j").as_("job_id"),
+                exp.column("name", "j").as_("job_name"),
+                exp.column("city", "j"),
+                exp.column("country", "j"),
+                exp.column("noofopenings", "j"),
+                exp.column("label", "js").as_("job_status"),
+                parse_one("ROUND((UNIX_TIMESTAMP() - j.createdon) / 86400)", dialect=DIALECT).as_("days_open"),
+            ]
+            
+            # Base table SELECT FROM
+            query = exp.select(*select_exprs).from_(
+                exp.Table(this=exp.to_identifier(base_table), alias=exp.to_identifier(base_alias))
+            )
+            
+            # Whitelisted Joins
+            self._assert_safe_join(base_table, "tbljobstatus")
+            logger.info(
+                "[COMPILER] Step 2.3 Join approved and added | request_id=%s | left=%s | right=%s | reason=job status label",
+                request_id,
+                base_table,
+                "tbljobstatus",
+            )
+            query = query.join(
+                expression=exp.Table(this=exp.to_identifier("tbljobstatus"), alias=exp.to_identifier("js")),
+                on=exp.column("jobstatus", base_alias).eq(exp.column("id", "js")),
+                join_type="inner",
+            )
+            
+            # WHERE conditions
+            conditions = [
+                exp.column("accountid", base_alias).eq(exp.Placeholder(this="account_id")),
+                exp.column("deleted", base_alias).eq(exp.Literal.number(0)),
+                exp.column("archived", base_alias).eq(exp.Literal.number(0)),
+            ]
+            
+            # Process DSL filters
+            for i, f in enumerate(dsl.filters):
+                pname = f"f_{i}"
+                params[pname] = f.value
+                if f.field == "days_open":
+                    round_expr = parse_one("ROUND((UNIX_TIMESTAMP() - j.createdon) / 86400)", dialect=DIALECT)
+                    logger.info(
+                        "[COMPILER] Step 2.4 Filter compiled | request_id=%s | field=%s | operator=%s | value=%r | target=derived.days_open | param=%s",
+                        request_id,
+                        f.field,
+                        f.operator,
+                        f.value,
+                        pname,
+                    )
+                    if f.operator == "gt":
+                        conditions.append(exp.GT(this=round_expr, expression=exp.Placeholder(this=pname)))
+                    elif f.operator == "lt":
+                        conditions.append(exp.LT(this=round_expr, expression=exp.Placeholder(this=pname)))
+                    else:
+                        conditions.append(exp.EQ(this=round_expr, expression=exp.Placeholder(this=pname)))
+                else:
+                    col_name, alias, _ = self._resolve_filter_target(f.field, base_table, base_alias)
+                    col_expr = exp.column(col_name, alias)
+                    logger.info(
+                        "[COMPILER] Step 2.4 Filter compiled | request_id=%s | field=%s | operator=%s | value=%r | target=%s.%s | param=%s",
+                        request_id,
+                        f.field,
+                        f.operator,
+                        f.value,
+                        alias,
+                        col_name,
+                        pname,
+                    )
+                    conditions.append(
+                        self._compile_filter_condition(col_expr, f.operator, exp.Placeholder(this=pname))
+                    )
+                
+            query = query.where(exp.and_(*conditions))
+            
+            # ORDER BY
+            query = query.order_by(exp.column("days_open").desc())
+            
+            # LIMIT
+            query = query.limit(DEFAULT_LIMIT)
+            
+            # Safety checks & return
+            sql = query.sql(dialect=DIALECT)
+            self._validate_ast(query, base_table, request_id=request_id)
+            
+            logger.info(
+                "[COMPILER] Step 2 completed: open jobs SQL generated | request_id=%s | sql=%s | params=%s",
+                request_id,
+                sql,
+                params,
+            )
             
             return CompiledQuery(
                 sql=sql,
@@ -241,8 +411,22 @@ class DeterministicCompiler:
         base_table = metric_def.get("source_table", DEFAULT_BASE_TABLE)
         temporal_col = metric_def.get("temporal_column", "createdon")
         base_alias = TABLE_ALIASES.get(base_table, BASE_ALIAS)
+        logger.info(
+            "[COMPILER] Step 2.2 Generic aggregate flow selected | request_id=%s | metric=%s | base_table=%s | base_alias=%s | temporal_column=%s",
+            request_id,
+            metric_id,
+            base_table,
+            base_alias,
+            temporal_col,
+        )
 
         params: dict = {"account_id": dsl.account_id}
+        logger.info(
+            "[COMPILER] Step 2.3 Tenant parameter prepared | request_id=%s | account_id=%s | base_tenant_column=%s.accountid",
+            request_id,
+            dsl.account_id,
+            base_alias,
+        )
 
         # ---- SELECT + GROUP BY (one entry per dimension) ----
         select_exprs: List[exp.Expression] = []
@@ -257,10 +441,25 @@ class DeterministicCompiler:
             group_exprs.append(group_expr)
             if join_node is not None:
                 joined_tables.append(join_node["table"])
+            logger.info(
+                "[COMPILER] Step 2.4 Dimension compiled | request_id=%s | dimension=%s | join_required=%s | join_table=%s | select_expression=%s | group_expression=%s",
+                request_id,
+                dim,
+                join_node is not None,
+                join_node["table"] if join_node is not None else None,
+                label_expr.sql(dialect=DIALECT),
+                group_expr.sql(dialect=DIALECT),
+            )
 
         # ---- Measure (numerator) ----
         measure_expr = self._compile_measure(metric_def, base_alias)
         select_exprs.append(exp.alias_(measure_expr, "value"))
+        logger.info(
+            "[COMPILER] Step 2.5 Measure compiled from numerator_sql | request_id=%s | numerator_sql=%r | measure_expression=%s",
+            request_id,
+            metric_def.get("numerator_sql"),
+            measure_expr.sql(dialect=DIALECT),
+        )
 
         # ---- Build the base SELECT/FROM ----
         query = exp.select(*select_exprs).from_(
@@ -273,6 +472,16 @@ class DeterministicCompiler:
             col_name, alias, f_join = self._resolve_filter_target(f.field, base_table, base_alias)
             if f_join is not None:
                 filter_joins_to_apply[f_join.table] = f_join
+            logger.info(
+                "[COMPILER] Step 2.6 Filter target resolved | request_id=%s | field=%s | operator=%s | target=%s.%s | join_required=%s | join_table=%s",
+                request_id,
+                f.field,
+                f.operator,
+                alias,
+                col_name,
+                f_join is not None,
+                f_join.table if f_join is not None else None,
+            )
 
         # ---- JOINs (whitelist-checked, tenant-propagating) ----
         joined_tables: set[str] = set()
@@ -283,6 +492,13 @@ class DeterministicCompiler:
                 continue
 
             self._assert_safe_join(base_table, f_join.table)
+            logger.info(
+                "[COMPILER] Step 2.7 Filter join approved and added | request_id=%s | left=%s | right=%s | alias=%s | tenant_propagated=true",
+                request_id,
+                base_table,
+                f_join.table,
+                f_join.alias,
+            )
 
             on_conditions = [
                 exp.column(f_join.base_col, base_alias).eq(
@@ -318,6 +534,15 @@ class DeterministicCompiler:
                 continue
 
             self._assert_safe_join(base_table, join_info.table)
+            logger.info(
+                "[COMPILER] Step 2.8 Dimension join approved and added | request_id=%s | dimension=%s | left=%s | right=%s | alias=%s | tenant_propagated=%s",
+                request_id,
+                dim,
+                base_table,
+                join_info.table,
+                join_info.alias,
+                join_info.table not in SKIP_TENANT_JOIN_TABLES,
+            )
 
             on_conditions = [
                 exp.column(join_info.base_col, base_alias).eq(
@@ -346,19 +571,40 @@ class DeterministicCompiler:
         conditions: List[exp.Expression] = [
             exp.column("accountid", base_alias).eq(exp.Placeholder(this="account_id"))
         ]
+        logger.info(
+            "[COMPILER] Step 2.9 Mandatory tenant WHERE condition injected | request_id=%s | condition=%s.accountid = :account_id",
+            request_id,
+            base_alias,
+        )
 
         # Soft-delete filter for tables that use is_deleted.
         if base_table in SOFT_DELETE_TABLES:
             conditions.append(
                 exp.column("is_deleted", base_alias).eq(exp.Literal.number(0))
             )
+            logger.info(
+                "[COMPILER] Step 2.10 Soft-delete condition injected | request_id=%s | condition=%s.is_deleted = 0",
+                request_id,
+                base_alias,
+            )
 
         for i, f in enumerate(dsl.filters):
             pname = f"f_{i}"
             params[pname] = f.value
             col_name, alias, _ = self._resolve_filter_target(f.field, base_table, base_alias)
+            col_expr = exp.column(col_name, alias)
+            logger.info(
+                "[COMPILER] Step 2.11 WHERE filter compiled | request_id=%s | field=%s | operator=%s | value=%r | target=%s.%s | param=%s",
+                request_id,
+                f.field,
+                f.operator,
+                f.value,
+                alias,
+                col_name,
+                pname,
+            )
             conditions.append(
-                exp.column(col_name, alias).eq(exp.Placeholder(this=pname))
+                self._compile_filter_condition(col_expr, f.operator, exp.Placeholder(this=pname))
             )
         query = query.where(exp.and_(*conditions))
 
@@ -371,29 +617,55 @@ class DeterministicCompiler:
         if is_stage_breakdown:
             group_exprs.insert(0, exp.column("id", "cs"))
             group_exprs.append(exp.column("sequenceno", "cs"))
+            logger.info(
+                "[COMPILER] Step 2.12 Stage breakdown detected | request_id=%s | extra_group_columns=%s",
+                request_id,
+                ["cs.id", "cs.sequenceno"],
+            )
         if group_exprs:
             query = query.group_by(*group_exprs)
+            logger.info(
+                "[COMPILER] Step 2.13 GROUP BY applied | request_id=%s | group_expressions=%s",
+                request_id,
+                [g.sql(dialect=DIALECT) for g in group_exprs],
+            )
 
         # ---- ORDER BY: pipeline sequence for stages, chronological for time ----
         is_time_series = "month" in dsl.dimensions
         if is_time_series:
             query = query.order_by(exp.column("label").asc())
+            order_reason = "time series chronological order"
         elif is_stage_breakdown:
             query = query.order_by(exp.column("sequenceno", "cs").asc())
+            order_reason = "pipeline stage sequence order"
         else:
             query = query.order_by(exp.column("value").desc())
+            order_reason = "largest value first"
+        logger.info(
+            "[COMPILER] Step 2.14 ORDER BY applied | request_id=%s | reason=%s",
+            request_id,
+            order_reason,
+        )
 
         # ---- LIMIT ----
         query = query.limit(DEFAULT_LIMIT)
+        logger.info(
+            "[COMPILER] Step 2.15 LIMIT applied | request_id=%s | limit=%s",
+            request_id,
+            DEFAULT_LIMIT,
+        )
 
         # ---- Render + AST-level safety validation ----
         sql = query.sql(dialect=DIALECT)
-        self._validate_ast(query, base_table)
+        self._validate_ast(query, base_table, request_id=request_id)
 
-        logger.info("--- SQL GENERATION START ---")
-        logger.info("SQL: %s", sql)
-        logger.info("Parameters: %s", params)
-        logger.info("--- SQL GENERATION END ---")
+        logger.info(
+            "[COMPILER] Step 2 completed: SQL generated and safety validated | request_id=%s | sql=%s | params=%s | visualization_type=%s",
+            request_id,
+            sql,
+            params,
+            dsl.visualization_plan.type,
+        )
 
         return CompiledQuery(
             sql=sql,
@@ -472,12 +744,51 @@ class DeterministicCompiler:
         if self._table_has_column(base_table, field):
             return field, base_alias, None
             
+        # Special logic for "status" which could refer to different tables based on context
+        if field_lower in ["status", "job_status", "stage"]:
+            if self._table_has_column(base_table, "jobstatus") and field_lower in ["status", "job_status"]:
+                f_join = FilterJoin(table="tbljobstatus", alias="js", base_col="jobstatus", join_col="id", target_col="label")
+                return f_join.target_col, f_join.alias, f_join
+            elif self._table_has_column(base_table, "candidatestatusid") and field_lower in ["status", "stage"]:
+                f_join = FilterJoin(table="tblcandidatestatus", alias="cs", base_col="candidatestatusid", join_col="id", target_col="label")
+                return f_join.target_col, f_join.alias, f_join
+
         # Fallback mappings for columns on the base table itself (e.g. if we are already querying tbljob)
         if field_lower in ["job_title", "job_name"] and self._table_has_column(base_table, "name"):
             return "name", base_alias, None
-            
-        # Default fallback
-        return field, base_alias, None
+
+        # No valid mapping found — raise an error instead of letting
+        # an unmapped column name reach MySQL and cause a runtime error.
+        raise DSLValidationError(
+            f"Cannot resolve filter field '{field}' against table '{base_table}'. "
+            f"Known filter fields: {list(FILTER_JOINS.keys())}"
+        )
+
+    def _compile_filter_condition(
+        self,
+        col_expr: exp.Expression,
+        operator: str,
+        placeholder: exp.Expression,
+    ) -> exp.Expression:
+        """Map a DSL filter operator string to the corresponding sqlglot comparison."""
+        op = (operator or "eq").lower()
+        if op == "eq":
+            return col_expr.eq(placeholder)
+        elif op == "ne":
+            return col_expr.neq(placeholder)
+        elif op == "gt":
+            return exp.GT(this=col_expr, expression=placeholder)
+        elif op == "lt":
+            return exp.LT(this=col_expr, expression=placeholder)
+        elif op == "gte":
+            return exp.GTE(this=col_expr, expression=placeholder)
+        elif op == "lte":
+            return exp.LTE(this=col_expr, expression=placeholder)
+        elif op == "like":
+            return exp.Like(this=col_expr, expression=placeholder)
+        else:
+            logger.warning("Unsupported filter operator '%s', falling back to eq", op)
+            return col_expr.eq(placeholder)
 
     def _compile_measure(
         self, metric_def: dict, base_alias: str = BASE_ALIAS,
@@ -536,17 +847,36 @@ class DeterministicCompiler:
                 f"Join {left} ↔ {right} is not in safe_join_paths.yaml"
             )
 
-    def _validate_ast(self, tree: exp.Expression, base_table: str) -> None:
+    def _validate_ast(
+        self,
+        tree: exp.Expression,
+        base_table: str,
+        request_id: Optional[str] = None,
+    ) -> None:
         """AST-walk safety checks (replaces the legacy regex-based stage 10)."""
         base_alias = TABLE_ALIASES.get(base_table, BASE_ALIAS)
+        logger.info(
+            "[COMPILER] Safety validation started | request_id=%s | base_table=%s | base_alias=%s",
+            request_id,
+            base_table,
+            base_alias,
+        )
 
         forbidden = (exp.Insert, exp.Update, exp.Delete, exp.Drop, exp.Create, exp.Alter)
         if any(tree.find_all(*forbidden)):
             raise CompilerSecurityError("Forbidden DDL/DML detected in compiled SQL")
+        logger.info(
+            "[COMPILER] Safety validation passed | request_id=%s | check=no DDL/DML",
+            request_id,
+        )
 
         where = tree.find(exp.Where)
         if where is None:
             raise CompilerSecurityError("Compiled query is missing a WHERE clause")
+        logger.info(
+            "[COMPILER] Safety validation passed | request_id=%s | check=WHERE clause present",
+            request_id,
+        )
 
         # Tenant filter must apply to the base table.
         base_tenant_present = any(
@@ -559,6 +889,11 @@ class DeterministicCompiler:
             raise CompilerSecurityError(
                 f"Tenant isolation missing: WHERE clause does not filter {base_alias}.accountid"
             )
+        logger.info(
+            "[COMPILER] Safety validation passed | request_id=%s | check=base tenant filter present | required=%s.accountid",
+            request_id,
+            base_alias,
+        )
 
         # Every JOIN must propagate accountid in its ON clause (except
         # lookup/dimension tables in SKIP_TENANT_JOIN_TABLES).
@@ -570,6 +905,11 @@ class DeterministicCompiler:
             join_table = join.find(exp.Table)
             join_table_name = join_table.name if join_table else ""
             if join_table_name in SKIP_TENANT_JOIN_TABLES:
+                logger.info(
+                    "[COMPILER] Safety validation skipped tenant propagation for lookup table | request_id=%s | table=%s",
+                    request_id,
+                    join_table_name,
+                )
                 continue
             propagates = any(
                 isinstance(c, exp.Column) and c.name == "accountid"
@@ -579,6 +919,15 @@ class DeterministicCompiler:
                 raise CompilerSecurityError(
                     "JOIN does not propagate tenant boundary (accountid missing in ON clause)"
                 )
+            logger.info(
+                "[COMPILER] Safety validation passed | request_id=%s | check=join tenant propagation | table=%s",
+                request_id,
+                join_table_name,
+            )
+        logger.info(
+            "[COMPILER] Safety validation completed | request_id=%s",
+            request_id,
+        )
 
     # ------------------------------------------------------------------ #
     # YAML loading

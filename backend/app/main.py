@@ -1,5 +1,5 @@
 import logging
-from logging.handlers import RotatingFileHandler
+from logging.handlers import TimedRotatingFileHandler
 import os
 
 from fastapi import FastAPI
@@ -14,7 +14,14 @@ if not os.path.exists(log_dir):
     os.makedirs(log_dir)
 
 log_file = os.path.join(log_dir, "analytics.log")
-file_handler = RotatingFileHandler(log_file, maxBytes=10*1024*1024, backupCount=5)
+file_handler = TimedRotatingFileHandler(
+    log_file,
+    when="midnight",
+    interval=1,
+    backupCount=30,
+    encoding="utf-8",
+)
+file_handler.suffix = "%Y-%m-%d"
 console_handler = logging.StreamHandler()
 
 logging.basicConfig(

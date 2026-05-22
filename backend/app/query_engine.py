@@ -6,6 +6,7 @@ Wires together: AI Planner (LLM) → Deterministic SQL Compiler → Executor →
 
 import logging
 import time
+import uuid
 from typing import Optional, Dict, Any
 
 from app.deterministic_compiler import DeterministicCompiler, get_compiler
@@ -70,8 +71,16 @@ class QueryEngine:
     def process(self, message: str, account_id: int, session_id: Optional[str] = None) -> dict:
         """Process a natural language analytics query with full terminal audit trail."""
         start_time = time.time()
+        request_id = str(uuid.uuid4())
+        logger.info(
+            "[REQUEST] Step 0 started: frontend query received | request_id=%s | account_id=%s | session_id=%s | message=%r",
+            request_id,
+            account_id,
+            session_id,
+            message,
+        )
         print("\n" + "="*60)
-        print(f"NEW ANALYTICS REQUEST | Account: {account_id}")
+        print(f"NEW ANALYTICS REQUEST | Request: {request_id} | Account: {account_id}")
         print(f"Query: \"{message}\"")
         print("="*60)
 
@@ -80,34 +89,72 @@ class QueryEngine:
             if not self.llm:
                 raise DSLValidationError("AI Planner is offline (API Key Missing)")
             
-            dsl = self.llm.resolve_intent(message, account_id)
+            dsl = self.llm.resolve_intent(message, account_id, request_id=request_id)
+            logger.info(
+                "[REQUEST] Step 1 completed: planning finished | request_id=%s | dsl=%s",
+                request_id,
+                dsl.model_dump(),
+            )
         except Exception as e:
             print(f"[ERROR] Planning Stage Failed: {e}")
+            logger.exception("[REQUEST] Step 1 failed: planning failed | request_id=%s", request_id)
             return {"error": f"Failed to plan query: {str(e)}"}
 
         # Step 2: Deterministic Compilation
         print("\n[COMPILER] Expanding metrics and resolving safe join paths...")
         try:
-            compiled = self.compiler.compile(dsl)
+            compiled = self.compiler.compile(dsl, request_id=request_id)
             print(f"[COMPILER] SQL Generated Successfully.")
             print(f"[COMPILER] SQL:\n{compiled.sql}")
+            logger.info(
+                "[REQUEST] Step 2 completed: deterministic compilation finished | request_id=%s | sql=%s | params=%s | visualization_type=%s",
+                request_id,
+                compiled.sql,
+                compiled.params,
+                compiled.visualization_type,
+            )
         except Exception as e:
             print(f"[ERROR] Compilation Stage Failed: {e}")
+            logger.exception("[REQUEST] Step 2 failed: compilation failed | request_id=%s", request_id)
             return {"error": f"Failed to build SQL: {str(e)}"}
 
         # Step 3: Database Execution
         print("\n[EXECUTOR] Running query against MySQL...")
         try:
-            query_result = self.executor.execute(compiled)
+            query_result = self.executor.execute(compiled, request_id=request_id)
             print(f"[EXECUTOR] Success. {len(query_result.rows)} rows returned.")
+            logger.info(
+                "[REQUEST] Step 3 completed: database execution finished | request_id=%s | row_count=%s | rows_sample=%s",
+                request_id,
+                query_result.row_count,
+                query_result.rows[:5],
+            )
         except Exception as e:
             print(f"[ERROR] Execution Stage Failed: {e}")
+            logger.exception("[REQUEST] Step 3 failed: database execution failed | request_id=%s", request_id)
             return {"error": f"Database query failed: {str(e)}"}
 
         # Step 4: Formatting
+        logger.info(
+            "[RESPONSE] Step 4 started: shaping rows for frontend contract | request_id=%s | row_count=%s",
+            request_id,
+            query_result.row_count,
+        )
         response = self._build_legacy_response(query_result, dsl)
+        logger.info(
+            "[RESPONSE] Step 4 completed: response ready | request_id=%s | chart_type=%s | title=%s | suggestions=%s",
+            request_id,
+            response.get("chart", {}).get("type"),
+            response.get("title"),
+            response.get("suggestions"),
+        )
         
         duration = time.time() - start_time
+        logger.info(
+            "[REQUEST] Completed successfully | request_id=%s | duration_seconds=%.3f | status=success",
+            request_id,
+            duration,
+        )
         print(f"\n[SUMMARY] Request completed in {duration:.2f}s")
         print("="*60 + "\n")
 

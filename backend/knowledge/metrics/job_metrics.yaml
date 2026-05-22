@@ -15,3 +15,11 @@ job_volume:
   numerator: "COUNT(id)"
   numerator_sql: "COUNT(DISTINCT log.id)"
   required_partitions: ["accountid"]
+
+open_jobs_list:
+  business_meaning: "List of jobs along with the number of days they have been open."
+  source_table: "tbljob"
+  numerator: "LIST"
+  numerator_sql: "1"
+  required_partitions: ["accountid"]
+  recommended_visualizations: ["table"]

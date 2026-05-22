@@ -136,3 +136,16 @@ safe_paths:
     path_confidence: "high"
     operational_meaning: "Links candidate assignments directly to candidate personal details."
     analytics_use_cases: ["candidate details list"]
+  - path_name: "job_to_jobstatus"
+    starting_table: "tbljob"
+    ending_table: "tbljobstatus"
+    intermediate_tables: []
+    join_sequence:
+      - left: "tbljob.jobstatus"
+        right: "tbljobstatus.id"
+    tenant_boundary_propagation:
+      - "tbljob.accountid = {{tenant_id}}"
+      - "tbljobstatus.accountid = tbljob.accountid"
+    path_confidence: "high"
+    operational_meaning: "Resolves the job status label for a job."
+    analytics_use_cases: ["job details list"]
