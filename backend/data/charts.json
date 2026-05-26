@@ -1,0 +1,299 @@
+[
+  {
+    "account_id": 5,
+    "title": "Ranking",
+    "description": null,
+    "natural_language_query": "Show by department",
+    "dsl": {
+      "intent_family": "ranking",
+      "metrics": [
+        "candidate_list"
+      ],
+      "dimensions": [],
+      "filters": [],
+      "temporal_scope": {
+        "start": null,
+        "end": null,
+        "type": "rolling"
+      },
+      "replay_requirements": [],
+      "visualization_plan": {
+        "type": "table",
+        "config": {}
+      },
+      "clarification_requirements": [],
+      "validation_requirements": [],
+      "execution_dependencies": [],
+      "account_id": 5
+    },
+    "visualization_type": "table",
+    "viz_config": {},
+    "lineage": {
+      "metric_id": "candidate_list",
+      "intent_family": "ranking",
+      "base_table": "tblassignjobcandidate",
+      "joined_tables": [
+        "tblcandidate",
+        "tbljob",
+        "tblcandidatestatus"
+      ],
+      "tables": [
+        {
+          "name": "tblassignjobcandidate",
+          "alias": "ajc"
+        },
+        {
+          "name": "tblcandidate",
+          "alias": "c"
+        },
+        {
+          "name": "tbljob",
+          "alias": "j"
+        },
+        {
+          "name": "tblcandidatestatus",
+          "alias": "cs"
+        }
+      ],
+      "dimensions": [],
+      "filters": []
+    },
+    "id": "789cbde7-2ef1-4005-bb20-9839fa479432",
+    "created_at": 1779482281.3753269,
+    "updated_at": 1779482281.3753269
+  },
+  {
+    "account_id": 5,
+    "title": "Trend",
+    "description": null,
+    "natural_language_query": "Show trend over time",
+    "dsl": {
+      "intent_family": "trend",
+      "metrics": [
+        "stage_conversion_rate"
+      ],
+      "dimensions": [
+        "month"
+      ],
+      "filters": [],
+      "temporal_scope": {
+        "start": null,
+        "end": null,
+        "type": "rolling"
+      },
+      "replay_requirements": [],
+      "visualization_plan": {
+        "type": "line",
+        "config": {}
+      },
+      "clarification_requirements": [],
+      "validation_requirements": [],
+      "execution_dependencies": [],
+      "account_id": 5
+    },
+    "visualization_type": "line",
+    "viz_config": {},
+    "lineage": {
+      "metric_id": "stage_conversion_rate",
+      "intent_family": "trend",
+      "base_table": "tblassignjobcandidatelog",
+      "joined_tables": [],
+      "tables": [
+        {
+          "name": "tblassignjobcandidatelog",
+          "alias": "log"
+        }
+      ],
+      "dimensions": [
+        "month"
+      ],
+      "filters": []
+    },
+    "id": "b16907f3-e215-481d-b07d-a4bb426f8f57",
+    "created_at": 1779482337.1739461,
+    "updated_at": 1779482337.1739461
+  },
+  {
+    "account_id": 5,
+    "title": "Funnel Analysis",
+    "description": null,
+    "natural_language_query": "open_jobs_list",
+    "dsl": {
+      "intent_family": "funnel_analysis",
+      "metrics": [
+        "open_jobs_list"
+      ],
+      "dimensions": [
+        "label"
+      ],
+      "filters": [],
+      "temporal_scope": {
+        "start": "2026-01-01",
+        "end": "2026-05-24",
+        "type": "fixed"
+      },
+      "replay_requirements": [],
+      "visualization_plan": {
+        "type": "bar",
+        "config": {}
+      },
+      "clarification_requirements": [],
+      "validation_requirements": [],
+      "execution_dependencies": [],
+      "account_id": 5
+    },
+    "visualization_type": "table",
+    "viz_config": {},
+    "lineage": {
+      "metric_id": "open_jobs_list",
+      "intent_family": "funnel_analysis",
+      "base_table": "tbljob",
+      "joined_tables": [
+        "tbljobstatus"
+      ],
+      "tables": [
+        {
+          "name": "tbljob",
+          "alias": "j"
+        },
+        {
+          "name": "tbljobstatus",
+          "alias": "js"
+        }
+      ],
+      "dimensions": [
+        "label"
+      ],
+      "filters": []
+    },
+    "id": "7309fa9c-ea46-47e3-aa0d-a11cdb024330",
+    "created_at": 1779635345.434473,
+    "updated_at": 1779635345.434473
+  },
+  {
+    "account_id": 5,
+    "title": "Ranking (copy)",
+    "description": null,
+    "natural_language_query": "Show by department",
+    "dsl": {
+      "intent_family": "ranking",
+      "metrics": [
+        "candidate_list"
+      ],
+      "dimensions": [],
+      "filters": [],
+      "temporal_scope": {
+        "start": null,
+        "end": null,
+        "type": "rolling"
+      },
+      "replay_requirements": [],
+      "visualization_plan": {
+        "type": "table",
+        "config": {}
+      },
+      "clarification_requirements": [],
+      "validation_requirements": [],
+      "execution_dependencies": [],
+      "account_id": 5
+    },
+    "visualization_type": "table",
+    "viz_config": {},
+    "lineage": {
+      "metric_id": "candidate_list",
+      "intent_family": "ranking",
+      "base_table": "tblassignjobcandidate",
+      "joined_tables": [
+        "tblcandidate",
+        "tbljob",
+        "tblcandidatestatus"
+      ],
+      "tables": [
+        {
+          "name": "tblassignjobcandidate",
+          "alias": "ajc"
+        },
+        {
+          "name": "tblcandidate",
+          "alias": "c"
+        },
+        {
+          "name": "tbljob",
+          "alias": "j"
+        },
+        {
+          "name": "tblcandidatestatus",
+          "alias": "cs"
+        }
+      ],
+      "dimensions": [],
+      "filters": []
+    },
+    "id": "a64495db-0bd7-44cf-8703-319715333fe3",
+    "created_at": 1779640105.9301581,
+    "updated_at": 1779640105.9301581
+  },
+  {
+    "account_id": 5,
+    "title": "Ranking (copy) (copy)",
+    "description": null,
+    "natural_language_query": "Show by department",
+    "dsl": {
+      "intent_family": "ranking",
+      "metrics": [
+        "candidate_list"
+      ],
+      "dimensions": [],
+      "filters": [],
+      "temporal_scope": {
+        "start": null,
+        "end": null,
+        "type": "rolling"
+      },
+      "replay_requirements": [],
+      "visualization_plan": {
+        "type": "table",
+        "config": {}
+      },
+      "clarification_requirements": [],
+      "validation_requirements": [],
+      "execution_dependencies": [],
+      "account_id": 5
+    },
+    "visualization_type": "table",
+    "viz_config": {},
+    "lineage": {
+      "metric_id": "candidate_list",
+      "intent_family": "ranking",
+      "base_table": "tblassignjobcandidate",
+      "joined_tables": [
+        "tblcandidate",
+        "tbljob",
+        "tblcandidatestatus"
+      ],
+      "tables": [
+        {
+          "name": "tblassignjobcandidate",
+          "alias": "ajc"
+        },
+        {
+          "name": "tblcandidate",
+          "alias": "c"
+        },
+        {
+          "name": "tbljob",
+          "alias": "j"
+        },
+        {
+          "name": "tblcandidatestatus",
+          "alias": "cs"
+        }
+      ],
+      "dimensions": [],
+      "filters": []
+    },
+    "id": "0c6db36f-a534-42a1-8d44-cb862eccfd32",
+    "created_at": 1779640138.147277,
+    "updated_at": 1779640138.147277
+  }
+]

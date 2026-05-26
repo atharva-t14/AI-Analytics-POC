@@ -1,0 +1,15 @@
+[
+  {
+    "account_id": 5,
+    "name": "test",
+    "description": null,
+    "chart_ids": [
+      "7f30d091-16b9-4cac-812e-2d57f1e2621d",
+      "b16907f3-e215-481d-b07d-a4bb426f8f57",
+      "789cbde7-2ef1-4005-bb20-9839fa479432"
+    ],
+    "id": "e4763a09-4bf1-48ce-9c3d-21ca4881269e",
+    "created_at": 1779640347.4204931,
+    "updated_at": 1779642049.338241
+  }
+]
