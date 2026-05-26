@@ -23,7 +23,7 @@ export default function Home() {
   const [metrics, setMetrics] = useState<MetricSummary[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [sessionId, setSessionId] = useState('')
-  const [accountId, setAccountId] = useState(3828832) // Default test account
+  const [accountId, setAccountId] = useState(5) // Default test account
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -102,7 +102,7 @@ export default function Home() {
               <input 
                 type="number" 
                 value={accountId}
-                onChange={(e) => setAccountId(parseInt(e.target.value) || 3828832)}
+                onChange={(e) => setAccountId(parseInt(e.target.value) || 5)}
                 className="bg-transparent border-none outline-none text-sm font-semibold w-20 text-foreground text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
             </div>
